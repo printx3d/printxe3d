@@ -2203,55 +2203,46 @@ curPill.addEventListener('click', () => {
                   <img id="mainImage" src="${p.images[0]}" alt="Image principale produit">
                 </div>
               </section>
-              <aside class="product-card" aria-label="Détails produit">
-                <button class="btn btn-ghost" id="backToStore" style="margin-bottom:18px">← Retour boutique</button>
-                <h1 class="product-title">${p.title}</h1>
+              <aside class="product-card" aria-label="Détails produit" style="color:#222;background:#fff;">
+                <button class="btn btn-ghost" id="backToStore" style="margin-bottom:18px;color:#144d29">← Retour boutique</button>
+                <h1 class="product-title" style="color:#144d29">${p.title}</h1>
                 <div class="price-row">
-                  <div class="price">€${p.price.toFixed(2)}</div>
-                  <div class="price--compare">€${(p.price*1.2).toFixed(2)}</div>
-                  <div style="margin-left:auto" class="badge-stock">En stock</div>
+                  <div class="price" style="color:#222">€${p.price.toFixed(2)}</div>
+                  <div class="price--compare" style="color:#888">€${(p.price*1.2).toFixed(2)}</div>
+                  <div style="margin-left:auto" class="badge-stock" style="color:#144d29">En stock</div>
                 </div>
                 <div class="meta" style="margin-top:12px">
-                  <div class="pill">Livraison 3-5 Jours</div>
+                  <div class="pill" style="color:#222;background:#f5f5f5">Livraison 3-5 Jours</div>
                 </div>
                 <div>
-                  <label for="color">Couleur</label>
-                  <div class="variants" id="colors">
-                    ${(p.variants||[]).map((v,i)=>`
-                      <button class="variant-btn${i===0?' active':''}" data-value="${v.color||v.mat||v.size}">${v.color||v.mat||v.size}</button>
-                    `).join('')}
-                  </div>
+                  <label for="color" style="color:#222">Couleur</label>
+                  <select id="colorSelect" style="width:100%;padding:8px;margin-top:6px;border-radius:8px;border:1px solid #ccc;color:#222;background:#fff;font-size:1em">
+                    <option value="Blanc">Blanc</option>
+                    <option value="Marbre">Marbre</option>
+                    <option value="Noir">Noir</option>
+                    <option value="Violet">Violet</option>
+                    <option value="Beige">Beige</option>
+                  </select>
                 </div>
                 <div style="margin-top:8px"></div>
                 <div style="display:flex;gap:10px;margin-top:12px;align-items:center">
                   <div style="flex:1">
-                    <label for="qty">Quantité</label>
-                    <input id="qty" type="number" value="1" min="1" />
+                    <label for="qty" style="color:#222">Quantité</label>
+                    <input id="qty" type="number" value="1" min="1" style="color:#222;background:#fff;border:1px solid #ccc" />
                   </div>
                   <div style="width:40%">
                     <label style="opacity:0">placeholder</label>
                   </div>
                 </div>
                 <div class="actions">
-                  <button class="btn btn-primary" id="addToCart">Ajouter au panier</button>
-                  <button class="btn btn-ghost" id="buyNow">Acheter maintenant</button>
+                  <button class="btn btn-primary" id="addToCart" style="background:#D7FF2F;color:#222">Ajouter au panier</button>
+                  <button class="btn btn-ghost" id="buyNow" style="color:#144d29">Acheter maintenant</button>
                 </div>
                 <div class="hr"></div>
-                <div class="tabs">
-                  <div class="tab-buttons" role="tablist">
-                    <button class="active" data-tab="desc">Description</button>
-                  </div>
-                  <div class="tab-content" id="desc">
+                <div style="margin-top:18px;margin-bottom:8px">
+                  <h3 style="color:#222;font-size:1.15em;font-weight:700;margin:0 0 8px 0">Description</h3>
+                  <div style="color:#222">
                     <p>${p.description || "Produit premium conçu pour durer. Tissu respirant, coutures renforcées, disponible en plusieurs couleurs et tailles. Idéal pour un usage quotidien ou comme cadeau."}</p>
-                  </div>
-                  </div>
-                </div>
-                <div class="rec-section">
-                  <h3 style="margin:0 0 12px">Vous pourriez aussi aimer</h3>
-                  <div class="rec-grid">
-                    <div class="rec-card"><img src="https://i.postimg.cc/JnzBp3D7/7.png" alt="r1"><p class="muted"></p></div>
-                    <div class="rec-card"><img src="https://i.postimg.cc/YS3qTShz/large-display-d82c61bf-5cef-49c0-8b4d-6b1b32844444-892438.webp" alt="r2"><p class="muted"></p></div>
-                    <div class="rec-card"><img src="https://i.postimg.cc/QdnjkYZK/1.png" alt="r3"><p class="muted"></p></div>
                   </div>
                 </div>
               </aside>
@@ -2619,6 +2610,8 @@ function renderCartDrawer() {
 }
 
 document.getElementById('openCart').onclick = () => {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  if (!cart.length) return;
   cartDrawer.classList.add('open');
   cartOverlay.style.display = 'block';
   setTimeout(() => cartDrawer.style.right = '0', 20);
