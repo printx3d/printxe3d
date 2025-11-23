@@ -1194,6 +1194,7 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
 </head>
 <body>
   <div class="bg-green-halo"></div>
+  <div id="cartToast" style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#D7FF2F;color:#222;padding:12px 32px;border-radius:16px;font-weight:700;font-size:1.08em;box-shadow:0 2px 18px #0003;z-index:9999;display:none;pointer-events:none;transition:opacity .3s;opacity:0">Ajouté au panier !</div>
   <header class="site">
   <div class="container row" style="justify-content:space-between;">
     <div style="display:flex;align-items:center;gap:24px;">
@@ -1212,6 +1213,8 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
     <div>
       <button class="cart-btn" id="openCart">
   <img src="https://i.ibb.co/dqgw5vH/panier.png" alt="Panier">
+  <span id="cartQtyBadge" style="position:absolute;top:8px;right:8px;background:#D7FF2F;color:#222;font-weight:700;font-size:0.95em;padding:2px 8px;border-radius:12px;min-width:22px;text-align:center;display:none;z-index:2"></span>
+  </button>
 </button>
     </div>
   </div>
@@ -2123,6 +2126,18 @@ curPill.addEventListener('click', () => {
       }
       localStorage.setItem('cart', JSON.stringify(cart));
       renderCartDrawer();
+      // Affiche le toast de confirmation
+      const toast = document.getElementById('cartToast');
+      if (toast) {
+        toast.style.display = 'block';
+        toast.style.opacity = '1';
+        setTimeout(() => {
+          toast.style.opacity = '0';
+        }, 1200);
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 1500);
+      }
     }
   function card(p){
     const card = document.createElement('div');
@@ -2148,8 +2163,6 @@ curPill.addEventListener('click', () => {
 `;
     const cartBtn = b.querySelector('.cart-button');
     cartBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
       addToCart({
         id: p.id,
         title: p.title,
@@ -2579,6 +2592,17 @@ function renderCartDrawer() {
     };
     items.appendChild(row);
   });
+  // Met à jour le badge quantité sur l’icône panier
+  const qtyBadge = document.getElementById('cartQtyBadge');
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+  if (qtyBadge) {
+    if (totalQty > 0) {
+      qtyBadge.textContent = totalQty;
+      qtyBadge.style.display = 'inline-block';
+    } else {
+      qtyBadge.style.display = 'none';
+    }
+  }
   document.getElementById('cartSubtotal').textContent = fmt(sub);
   document.getElementById('cartShipping').textContent = fmt(calcShipping(weight, 'colissimo'));
   document.getElementById('cartTotal').textContent = fmt(sub + parseFloat(document.getElementById('cartShipping').textContent.replace('€','')));
