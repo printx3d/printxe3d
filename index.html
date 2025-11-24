@@ -79,6 +79,11 @@ nav a:hover::after {
   display: block;
 }
     .logo{display:flex;align-items:center;gap:.7rem}
+    @media (max-width: 600px) {
+      #currency-pill {
+        display: none !important;
+      }
+    }
     .logo svg{height:28px}
     .pill{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.35rem .6rem;background:#0b0b0b}
     .grid{display:grid;gap:20px}
@@ -221,6 +226,87 @@ body {
 }
 
 body, .hero, .section, .card, .prod, .toolbar, header.site, footer, .bg-green-halo {
+  /* Version mobile dédiée */
+  @media (max-width: 600px) {
+    .container {
+      max-width: 100vw;
+      padding: 0 8px;
+    }
+    header .row {
+      height: 54px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+    }
+    nav {
+      flex-direction: row;
+      gap: 0.7rem;
+      justify-content: center;
+      align-items: center;
+      font-size: 1em;
+      width: 100%;
+    }
+    .heroRow {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .prodGrid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .card.prod.shadow {
+      max-width: 98vw;
+      min-width: 0;
+      margin: 0 auto;
+    }
+    .toolbar {
+      flex-direction: column !important;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .section {
+      padding: 32px 0;
+    }
+    .card.pad {
+      padding: 12px;
+    }
+    .modal .box {
+      width: 98vw;
+      max-height: 98vh;
+      padding: 0;
+    }
+    .feature-card {
+      margin-bottom: 12px;
+    }
+    .featGrid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .viewer {
+      height: 220px;
+    }
+    .price-row {
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
+    .actions {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cart-btn {
+      min-width: 44px;
+      min-height: 44px;
+      font-size: 1.1em;
+    }
+    #cartQtyBadge {
+      top: 2px;
+      right: 2px;
+      font-size: 0.95em;
+      padding: 2px 6px;
+    }
+  }
   animation: fadeInSite 1.1s cubic-bezier(.33,1.02,.47,.98) both;
 }
 
