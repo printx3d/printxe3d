@@ -1950,17 +1950,72 @@ scene.background = new THREE.Color(bgColor.trim());
       </div>
   </main>
 
-  <footer>
-    <div class="container section" style="padding-top:32px;padding-bottom:32px">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-        <div class="logo">
-          <img src="https://i.ibb.co/23jrYqM8/c83b0d1d-822f-4902-9dcf-d329f164b778-removebg-preview.png" alt="Printxe3D Logo" style="height:110px;">
-          <span class="muted">Impression 3D — France</span>
+<footer style="background:#181818;color:#fff;padding:0;margin:0;border-top:1.5px solid #222;">
+    <div class="footer-main" style="max-width:1200px;margin:0 auto;padding:48px 24px 16px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;">
+      <div class="footer-col">
+        <h3 style="font-size:1.13em;font-weight:700;margin-bottom:12px;letter-spacing:.01em;">À propos</h3>
+        <p style="color:#bfbfbf;line-height:1.6;font-size:1em;">Service d’impression 3D de référence pour des pièces de qualité</p>
+      </div>
+      <div class="footer-col">
+        <h3 style="font-size:1.13em;font-weight:700;margin-bottom:12px;letter-spacing:.01em;">Liens utiles</h3>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="https://printxe3d.fr/#home" style="color:#bfbfbf;text-decoration:none;">Accueil</a></li>
+          <li><a href="https://printxe3d.fr/#store" style="color:#bfbfbf;text-decoration:none;">Boutique</a></li>
+          <li><a href="https://printxe3d.fr/#configurator" style="color:#bfbfbf;text-decoration:none;">Configurateur 3D</a></li>
+          <li><a href="https://printxe3d.fr/#contact" style="color:#bfbfbf;text-decoration:none;">FAQ &amp; Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3 style="font-size:1.13em;font-weight:700;margin-bottom:12px;letter-spacing:.01em;">Informations légales</h3>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li><a href="https://printxe3d.fr/#" style="color:#bfbfbf;text-decoration:none;">Mentions légales</a></li>
+          <li><a href="https://printxe3d.fr/#" style="color:#bfbfbf;text-decoration:none;">CGV</a></li>
+          <li><a href="https://printxe3d.fr/#" style="color:#bfbfbf;text-decoration:none;">Politique de confidentialité (RGPD)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3 style="font-size:1.13em;font-weight:700;margin-bottom:12px;letter-spacing:.01em;">Paiement &amp; Statistiques</h3>
+        <div style="margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <img src="./Printxe3D — Boutique d&#39;impression 3D_files/Logo.png" alt="Stripe" style="height:22px;filter:grayscale(1);background:#ffffff0e;border-radius:4px;padding:2px;">
+          <img src="./Printxe3D — Boutique d&#39;impression 3D_files/PYPL.D-3cbc0221.png" alt="PayPal" style="height:22px;filter:grayscale(1);background:#ffffff0e;border-radius:4px;padding:2px;">
+          <img src="./Printxe3D — Boutique d&#39;impression 3D_files/V.D-e36aebe0.png" alt="Visa" style="height:22px;filter:grayscale(1);background:#ffffff0e;border-radius:4px;padding:2px;">
+          <img src="./Printxe3D — Boutique d&#39;impression 3D_files/65270f99d9ed3b9acde72f49_mastercard-icon-512x395-qoejqj7z.png" alt="Mastercard" style="height:22px;filter:grayscale(1);background:#ffffff0e;border-radius:4px;padding:2px;">
         </div>
-        <div class="muted">Mentions • CGV • RGPD</div>
-        <div class="muted">© <span id="year"></span> Printxe3D — Tous droits réservés.</div>
+        <div style="color:#bfbfbf;font-size:.98em;line-height:1.7;">
+          <div>✔ Satisfaction client <strong style="color:#D7FF2F;">98,7%</strong></div>
+          <div>✔ Prototypage dès <strong style="color:#D7FF2F;">48h</strong></div>
+          <div>✔ Pas de minimum (<strong style="color:#D7FF2F;">0 MOQ</strong>)</div>
+        </div>
       </div>
     </div>
+    <div class="footer-bottom" style="text-align:center;padding:18px 8px 24px 8px;color:#bfbfbf;font-size:1em;letter-spacing:.01em;">
+      © 2025 Printxe3D — Tous droits réservés.
+    </div>
+    <style>
+      @media (max-width: 900px) {
+        .footer-main {
+          grid-template-columns:1fr;
+          gap:24px;
+          padding:36px 12px 8px 12px;
+        }
+        .footer-col { margin-bottom:18px; }
+      }
+      .footer-main a:hover { color: #D7FF2F !important; }
+      .footer-col h3 { color: #D7FF2F; font-family: Orbitron, Inter, sans-serif; }
+      .footer-col ul li a {
+        display: inline-block;
+        margin-bottom: 6px;
+        transition: color .18s;
+      }
+      .footer-col:nth-child(3) ul li a {
+        padding-bottom: 3px;
+        border-bottom: 2px solid #333;
+        transition: border-color .18s;
+      }
+      .footer-col:nth-child(3) ul li a:hover {
+        border-bottom: 2px solid #D7FF2F;
+      }
+    </style>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -2165,7 +2220,6 @@ scene.background = new THREE.Color(bgColor.trim());
   const $=sel=>document.querySelector(sel);
   const el=(tag,props={},children=[])=>{const n=document.createElement(tag);Object.assign(n,props);children.forEach(c=>n.append(c));return n};
   const fmt=(n,cur=localStorage.getItem('cur')||'EUR')=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:cur}).format(n);
-  const yearEl=$('#year');yearEl.textContent=new Date().getFullYear();
   const langBtn=$('#langSwitch');
   const curPill = $('#currency-pill');
 curPill.addEventListener('click', () => {
