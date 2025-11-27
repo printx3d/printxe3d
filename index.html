@@ -1928,7 +1928,8 @@ scene.background = new THREE.Color(bgColor.trim());
       </span>
       Délais moyens ?
     </summary>
-    <p class="muted">2–5 jours ouvrés selon file d'attente et finitions.</p>
+    <p class="muted">4–7 jours ouvrés selon file d'attente et finitions.</p>
+
   </details>
 </div>
           </div>
@@ -2290,32 +2291,10 @@ curPill.addEventListener('click', () => {
   <div class="h3">${p.title}</div>
   <div class="muted">${p.rating}★</div>
   <div class="price">${fmt(p.price)}</div>
-  <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
-    <button class="cart-button">
-      <span class="add-to-cart">Ajouter</span>
-      <span class="added">✓ Ajouté</span>
-      <i class="fas fa-shopping-cart"></i>
-      <i class="fas fa-box"></i>
-    </button>
-    <button class="btn btn-view" type="button">Voir +</button>
-  </div>
 `;
-    const cartBtn = b.querySelector('.cart-button');
-    cartBtn.addEventListener('click', function(e) {
-      addToCart({
-        id: p.id,
-        title: p.title,
-        price: p.price,
-        image: p.images[0]
-      });
-    });
-  b.querySelector('.btn.btn-view').onclick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openProduct(p);
-  };
+  // Ouvre la fiche produit au clic sur la carte
   card.addEventListener('click', function(e) {
-    if (!e.target.closest('button')) openProduct(p);
+    openProduct(p);
   });
   card.append(t, b);
   return card;
