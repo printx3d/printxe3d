@@ -10,94 +10,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<style>
-  /* Loader fullscreen */
-  #loader-bg {
-    position: fixed;
-    z-index: 99999;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s;
-    overflow: hidden;
-  }
-
-  /* --- LOGO --- */
-  #loader-logo {
-    width: 160px;
-    opacity: 0.95;
-    filter: drop-shadow(0 0 8px #D7FF2F88);
-    animation: fadeLogo 1.6s ease-in-out infinite alternate;
-  }
-
-  @keyframes fadeLogo {
-    0% { opacity: 0.65; }
-    100% { opacity: 1; }
-  }
-
-  /* --- TEXTE --- */
-  #loader-text {
-    color: #D7FF2F;
-    font-family: Orbitron, Inter, sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.12em;
-    text-align: center;
-    margin-top: 10px;
-    animation: textBlink 1.3s infinite alternate ease-in-out;
-  }
-
-  @keyframes textBlink {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
-  }
-
-  /* Cube animation */
-  .loader-container {
-    transform: rotate(-35deg);
-  }
-
-  .box {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: calc(100% + 400px);
-    -webkit-box-reflect: below 1px linear-gradient(transparent, #000);
-    animation: animatesurface 1.5s ease-in-out infinite;
-  }
-
-  @keyframes animatesurface {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-200px); }
-  }
-
-  .cube {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    background: #D7FF2F;
-    box-shadow:
-      0 0 5px #D7FF2F,
-      0 0 25px #D7FF2F,
-      0 0 50px #D7FF2F,
-      0 0 150px #D7FF2F;
-    transform-origin: bottom right;
-    animation: animateCube 1.5s ease-in-out infinite;
-  }
-
-  @keyframes animateCube {
-    0% { transform: rotate(0deg); }
-    60%, 70%, 80%, 100% { transform: rotate(90deg); }
-    65% { transform: rotate(85deg); }
-    75% { transform: rotate(87.5deg); }
-  }
-</style>
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <style>
     html, body {
@@ -1377,14 +1289,6 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
       </style>
 </head>
 <body>
-<div id="loader-bg">
-  <div class="loader-container">
-    <div class="box">
-      <div class="cube"></div>
-    </div>
-  </div>
-</div>
-
   <div class="bg-green-halo"></div>
   <div id="cartToast" style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#D7FF2F;color:#222;padding:12px 32px;border-radius:16px;font-weight:700;font-size:1.08em;box-shadow:0 2px 18px #0003;z-index:9999;display:none;pointer-events:none;transition:opacity .3s;opacity:0">Ajouté au panier !</div>
   <header class="site">
@@ -3279,41 +3183,5 @@ document.getElementById('backToStore').onclick = function() {
   document.querySelectorAll('main > section, #partners').forEach(s => s.style.display = '');
 };
 </script>
-<script>
-  window.addEventListener('DOMContentLoaded', function() {
-    // Vérifie si le loader a déjà été affiché
-    if (!localStorage.getItem('loaderShown')) {
-      // Bloque le scroll
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-      var preventScroll = function(e) { e.preventDefault(); };
-      window.addEventListener('touchmove', preventScroll, { passive: false });
-      window.addEventListener('wheel', preventScroll, { passive: false });
-      setTimeout(function() {
-        var loader = document.getElementById('loader-bg');
-        if(loader) {
-          loader.style.opacity = '0';
-          setTimeout(function() {
-            loader.style.display = 'none';
-            // Réactive le scroll
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
-            window.removeEventListener('touchmove', preventScroll, { passive: false });
-            window.removeEventListener('wheel', preventScroll, { passive: false });
-            // Marque le loader comme affiché
-            localStorage.setItem('loaderShown', '1');
-          }, 500);
-        }
-      }, 3000);
-    } else {
-      // Cache le loader immédiatement si déjà affiché
-      var loader = document.getElementById('loader-bg');
-      if(loader) loader.style.display = 'none';
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    }
-  });
-</script>
-
 </body>
 </html>
