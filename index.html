@@ -82,9 +82,6 @@ nav a:hover::after {
 }
     .logo{display:flex;align-items:center;gap:.7rem}
     @media (max-width: 600px) {
-      #currency-pill {
-        display: none !important;
-      }
     }
     .logo svg{height:28px}
     .pill{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.35rem .6rem;background:#0b0b0b}
@@ -1079,33 +1076,6 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
   #productPage .product-card{position:initial}
   #productPage .rec-grid{grid-template-columns:1fr}
 }
-#currency-pill {
-  background: #ffffff0e!important;
-  color: #fff !important;
-  border: 1px solid #ffffff80 !important;
-  border-radius: 19px !important;
-  margin-bottom: 10px !important;
-  margin-top: 10px;
-  padding: 0.6rem 10px !important;
-  font-size: 0.9rem !important;
-  box-sizing: border-box;
-  transition: background .18s, color .18s, border-color .18s;
-  cursor: pointer;
-  width: 70px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: inherit;
-  font-weight: 600;
-}
-#currency-pill:hover,
-#currency-pill:focus {
-  background: #ffffff0e !important;
-  color: var(--accent) !important;
-  border-color: var(--accent) !important;
-  outline: none;
-}
 .faq-accordion summary {
   min-width: 516px !important;
   max-width: 516px !important;
@@ -1296,7 +1266,6 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
     <div style="display:flex;align-items:center;gap:24px;">
       <div class="logo" style="margin-left:-18px;">
         <img src="https://i.ibb.co/23jrYqM8/c83b0d1d-822f-4902-9dcf-d329f164b778-removebg-preview.png" alt="Printxe3D Logo" style="height:110px;">
-        <button id="currency-pill" type="button">€ EUR</button>
       </div>
     </div>
     <nav style="display:flex;gap:1.5rem;justify-content:center;align-items:center;flex:1;">
@@ -2442,16 +2411,6 @@ scene.background = new THREE.Color(bgColor.trim());
   const el=(tag,props={},children=[])=>{const n=document.createElement(tag);Object.assign(n,props);children.forEach(c=>n.append(c));return n};
   const fmt=(n,cur=localStorage.getItem('cur')||'EUR')=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:cur}).format(n);
   const langBtn=$('#langSwitch');
-  const curPill = $('#currency-pill');
-curPill.addEventListener('click', () => {
-  const map = { EUR: 'USD', USD: 'GBP', GBP: 'EUR' };
-  const cur = localStorage.getItem('cur') || 'EUR';
-  const next = map[cur];
-  localStorage.setItem('cur', next);
-  curPill.textContent = (next === 'EUR' ? '€ EUR' : next === 'USD' ? '$ USD' : '£ GBP');
-  render();
-  updateCart();
-});
   const categorySel=$('#category');categorySel.innerHTML='<option value="all">Catégories</option>'+CATEGORIES.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
   const search=$('#search');const sort=$('#sort');const ratingSel=$('#rating');const priceSel=$('#price');
   const grid=$('#grid');
