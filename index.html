@@ -960,16 +960,13 @@ body, .section, header.site, footer, .modal, .card, .prod, .viewer {
   background: #D7FF2F !important;
 }
 button, .tally-submit-button, .tally-button {
-  background: #D7FF2F !important;
   color: #111 !important;
   border-radius: 16px !important;
   font-weight: 700 !important;
-  box-shadow: 0 2px 12px #d7ff2f33 !important;
   border: none !important;
   transition: background .18s, color .18s;
 }
 button:hover, .tally-submit-button:hover, .tally-button:hover {
-  background: #fff700 !important;
   color: #000 !important;
 }
 .tally-label, .tally-question__title, .tally-question__description, .tally-success-message__title {
@@ -1897,6 +1894,64 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
   <div class="container">
     <h2 class="h2">Configurateur 3D</h2>
 <style>
+    /* Bouton Uiverse.io FAQ Contact */
+    #contactForm button {
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      --primary-color: #FFFFFF;
+      --hovered-color: #D7FF2F;
+      position: relative;
+      display: flex;
+      font-weight: 600;
+      font-size: 20px;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    #contactForm button p {
+      margin: 0;
+      position: relative;
+      font-size: 18px;
+      color: var(--primary-color);
+    }
+    #contactForm button::after {
+      position: absolute;
+      content: "";
+      width: 0;
+      left: 0;
+      bottom: -7px;
+      background: var(--hovered-color);
+      height: 2px;
+      transition: 0.3s ease-out;
+    }
+    #contactForm button p::before {
+      position: absolute;
+      content: "Soumettre";
+      width: 0%;
+      inset: 0;
+      color: var(--hovered-color);
+      overflow: hidden;
+      transition: 0.3s ease-out;
+    }
+    #contactForm button:hover::after {
+      width: 100%;
+    }
+    #contactForm button:hover p::before {
+      width: 100%;
+    }
+    #contactForm button:hover svg {
+      transform: translateX(4px);
+      color: var(--hovered-color);
+    }
+    #contactForm button svg {
+      color: var(--primary-color);
+      transition: 0.2s;
+      position: relative;
+      width: 15px;
+      transition-delay: 0.2s;
+    }
 :root{
   --bg: #000;
   --bg-soft: #333924;
@@ -2365,7 +2420,24 @@ scene.background = new THREE.Color(bgColor.trim());
           <form class="card pad" id="contactForm">
   <label>E‑mail <input required type="email" name="email" class="input" /></label>
   <label style="margin-top:8px">Message <textarea required rows="5" name="message" class="input"></textarea></label>
-  <button class="btn btn-acc" style="margin-top:10px" type="submit">Envoyer</button>
+  <!-- From Uiverse.io by satyamchaudharydev -->
+  <button type="submit" style="float:left; margin-left:20px; margin-top:0; transform:translate(-14px,10px);">
+    <p>Soumettre</p>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="4"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M14 5l7 7m0 0l-7 7m7-7H3"
+      ></path>
+    </svg>
+  </button>
   <div id="contactStatus" class="muted" style="margin-top:8px"></div>
 </form>
         </div>
