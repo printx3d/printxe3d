@@ -2722,6 +2722,7 @@ scene.background = new THREE.Color(bgColor.trim());
     modal.innerHTML=`<div class="box card pad"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h3 id="pmTitle" class="h3">Produit</h3><button id="pmClose" class="btn" style="border-color:rgba(255,255,255,.12)">Fermer</button></div><div class="grid" style="grid-template-columns:1.1fr .9fr;gap:16px;margin-top:8px"><div class="card" style="padding:10px"><div id="pmViewer" class="viewer"></div></div><div class="card pad"><div class="muted" id="pmRating"></div><div style="margin:8px 0"><strong id="pmPrice" class="price"></strong></div><div class="variantRow"><select id="pmSize"></select><select id="pmMat"></select><select id="pmColor"></select></div><div style="margin-top:10px;display:grid;gap:8px"><button id="pmAdd" class="btn btn-acc">Ajouter au panier</button><p class="muted">Galerie: image + viewer 3D si disponible.</p></div><div style="margin-top:10px"><h4 class="h3">Avis</h4><div id="pmReviews" style="display:grid;gap:8px"></div></div></div></div></div>`;
     document.body.append(modal);$('#pmClose').onclick=()=>modal.classList.remove('open');
     let pmProduct=null;let pmPrice=0;let pmViewer=null;
+    render();
         function openProduct(p) {
           document.querySelectorAll('main > section, #partners').forEach(s => s.style.display = 'none');
           const page = document.getElementById('productPage');
