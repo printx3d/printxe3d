@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votre panier - Printxe3D</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { background: #111; color: #fff; font-family: Inter, Arial, sans-serif; margin: 0; }
+    .panier-container { max-width: 1200px; margin: 40px auto; display: flex; gap: 36px; }
+    .panier-main { flex: 2; background: #222; border-radius: 16px; box-shadow: 0 8px 32px #0004; padding: 32px 24px; }
+    .panier-title { font-size: 2em; font-weight: 800; color: #D7FF2F; margin-bottom: 24px; }
+    table.panier-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    table.panier-table th, table.panier-table td { padding: 12px 8px; text-align: left; }
+    table.panier-table th { color: #D7FF2F; font-size: 1.1em; border-bottom: 2px solid #333; }
+    table.panier-table td { border-bottom: 1px solid #232323; vertical-align: middle; }
+    .prod-img { width: 60px; height: 60px; object-fit: cover; border-radius: 10px; background: #333; }
+    .prod-info { display: flex; flex-direction: column; gap: 2px; }
+    .prod-cat { color: #bfbfbf; font-size: 0.95em; }
+    .prod-name { font-weight: bold; }
+    .prod-price { color: #D7FF2F; font-weight: 600; }
+    .code-promo { color: #7fd7ff; font-size: 0.95em; }
+    .qty-selector { display: flex; align-items: center; gap: 8px; }
+    .qty-btn { background: #232323; color: #fff; border: none; border-radius: 8px; width: 32px; height: 32px; font-size: 1.1em; cursor: pointer; font-weight: 700; }
+    .qty-btn:hover { background: #333; }
+    .qty-value { min-width: 24px; text-align: center; font-weight: bold; }
+    .remove-btn { background: none; border: none; color: #ff5f5f; font-size: 1.2em; cursor: pointer; }
+    .remove-btn:hover { color: #ff2222; }
+    .note-section { margin: 24px 0; }
+    .note-toggle { background: none; border: none; color: #D7FF2F; font-weight: bold; font-size: 1em; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .note-field { display: none; margin-top: 10px; }
+    .note-field textarea { width: 100%; min-height: 60px; border-radius: 8px; border: none; background: #181818; color: #fff; padding: 10px; font-size: 1em; }
+    .panier-summary { flex: 1; background: #232323; border-radius: 16px; box-shadow: 0 8px 32px #0004; padding: 28px 20px; display: flex; flex-direction: column; gap: 18px; min-width: 320px; }
+    .summary-title { font-size: 1.2em; font-weight: bold; color: #D7FF2F; margin-bottom: 10px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; }
+    .summary-label { color: #bfbfbf; }
+    .summary-value { font-weight: bold; }
+    .old-price { text-decoration: line-through; color: #888; margin-right: 8px; }
+    .summary-total { font-size: 1.3em; color: #D7FF2F; font-weight: 800; }
+    .shipping-toggle { background: none; border: none; color: #D7FF2F; font-size: 1em; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .shipping-field { display: none; margin-top: 10px; }
+    .pay-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+    .pay-btn { background: #D7FF2F; color: #111; border: none; border-radius: 8px; padding: 14px; font-weight: bold; font-size: 1.1em; cursor: pointer; }
+    .pay-btn:hover { background: #eaff5f; }
+    @media (max-width: 900px) {
+      .panier-container { flex-direction: column; gap: 18px; }
+      .panier-summary { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+  <div class="panier-container">
+    <div class="panier-main">
+      <div class="panier-title">Votre panier</div>
+      <table class="panier-table" id="panierTable">
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="panierBody">
+          <!-- Produits JS -->
+        </tbody>
+      </table>
+      <!-- Champ code promo déplacé dans le récapitulatif -->
+      <div class="note-section">
+        <button class="note-toggle" id="noteToggle"><i class="fas fa-plus"></i> Ajouter une note de commande</button>
+        <div class="note-field" id="noteField">
+          <textarea id="noteTextarea" placeholder="Votre note pour la commande..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="panier-summary">
+      <div class="summary-title">Total du panier</div>
+      <div class="summary-row">
+        <span class="summary-label">Sous-total</span>
+        <span class="summary-value" id="subtotal">0 €</span>
+      </div>
+      <form id="promoForm" style="display:flex;gap:8px;align-items:center;margin:10px 0 0 0;">
+        <input type="text" id="promoInput" placeholder="Code promo" style="flex:1;padding:8px;border-radius:8px;border:none;background:#181818;color:#fff;" autocomplete="off">
+        <button type="submit" style="background:#D7FF2F;color:#111;font-weight:bold;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;">Valider</button>
+      </form>
+      <div id="promoMsg" style="color:#7fff7f;font-size:0.98em;margin-top:6px;display:none;"></div>
+      <div class="summary-row">
+        <button class="shipping-toggle" id="shippingToggle"><i class="fas fa-plus"></i> Calculateur de frais de port</button>
+      </div>
+      <div class="shipping-field" id="shippingField">
+        <select id="shippingSelect" style="width:100%;padding:8px;border-radius:8px;background:#181818;color:#fff;">
+          <option value="4.9">Locker — 3–5 jours — 4,90 €</option>
+          <option value="5.9">Point Relais® — 3–5 jours — 5,90 €</option>
+          <option value="9.9">À domicile — 3–5 jours — 9,90 €</option>
+        </select>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">Remise totale</span>
+        <span><span class="old-price" id="oldTotal">0 €</span><span class="summary-value" id="discount">0 €</span></span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">Total</span>
+        <span class="summary-total" id="total">0 €</span>
+      </div>
+      <div class="pay-btns">
+        <button class="pay-btn" id="checkoutBtn"><i class="fas fa-credit-card"></i> Payer</button>
+        <button class="pay-btn" style="background:#333;color:#D7FF2F;" id="backToShop"><i class="fas fa-arrow-left"></i> Retour à la boutique</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // --- Gestion du panier ---
+    function fmt(n) { return n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }); }
+    function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+    function setCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
+    let promoCode = '';
+    // Code promo caché (obfusqué)
+    function getHiddenPromo() {
+      // Découpage pour éviter la lecture directe dans le code source
+      const p1 = 'Fam';
+      const p2 = 'ily';
+      const p3 = '10';
+      return (p1 + p2 + p3).toLowerCase();
+    }
+    function renderCart() {
+      const cart = getCart();
+      const tbody = document.getElementById('panierBody');
+      tbody.innerHTML = '';
+      let subtotal = 0;
+      cart.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        // Produit
+        const tdProd = document.createElement('td');
+        tdProd.innerHTML = `
+          <div style="display:flex;align-items:center;gap:14px;">
+            <img class="prod-img" src="${item.images && item.images[0] ? item.images[0] : ''}" alt="${item.title}">
+            <div class="prod-info">
+              <span class="prod-cat">${item.category || ''}</span>
+              <span class="prod-name">${item.title}</span>
+              <span class="prod-price">${fmt(item.price)}</span>
+              <span class="code-promo">${item.promo ? 'Code promo utilisé' : ''}</span>
+            </div>
+          </div>
+        `;
+        // Quantité
+        const tdQty = document.createElement('td');
+        tdQty.innerHTML = `
+          <div class="qty-selector">
+            <button class="qty-btn" data-action="minus" data-idx="${idx}">–</button>
+            <span class="qty-value">${item.qty}</span>
+            <button class="qty-btn" data-action="plus" data-idx="${idx}">+</button>
+          </div>
+        `;
+        // Total
+        const tdTotal = document.createElement('td');
+        const totalItem = (item.price || 0) * (item.qty || 1);
+        tdTotal.innerHTML = `<span>${fmt(totalItem)}</span>`;
+        subtotal += totalItem;
+        // Supprimer
+        const tdRemove = document.createElement('td');
+        tdRemove.innerHTML = `<button class="remove-btn" data-action="remove" data-idx="${idx}" title="Supprimer"><i class="fas fa-trash"></i></button>`;
+        tr.appendChild(tdProd);
+        tr.appendChild(tdQty);
+        tr.appendChild(tdTotal);
+        tr.appendChild(tdRemove);
+        tbody.appendChild(tr);
+      });
+      document.getElementById('subtotal').textContent = fmt(subtotal);
+      // Application du code promo caché
+      let remise = 0;
+      let promoMsg = '';
+      const hiddenPromo = getHiddenPromo();
+      if (promoCode && promoCode.toLowerCase() === hiddenPromo) {
+        remise = 0.1 * subtotal;
+        promoMsg = 'Code promo appliqué : -10%';
+      } else if (promoCode) {
+        promoMsg = 'Code promo invalide';
+      }
+      document.getElementById('promoMsg').style.display = promoMsg ? 'block' : 'none';
+      document.getElementById('promoMsg').textContent = promoMsg;
+      document.getElementById('oldTotal').textContent = remise ? fmt(subtotal) : '';
+      document.getElementById('discount').textContent = remise ? fmt(subtotal - remise) : fmt(subtotal);
+      // Frais de port
+      const shipping = parseFloat(document.getElementById('shippingSelect').value || '4.9');
+      const total = subtotal - remise + shipping;
+      document.getElementById('total').textContent = fmt(total);
+    }
+    // Gestion du code promo
+    document.getElementById('promoForm').onsubmit = function(e) {
+      e.preventDefault();
+      promoCode = document.getElementById('promoInput').value.trim();
+      // Stocke le code promo dans localStorage pour la page paiement
+      if (promoCode) {
+        localStorage.setItem('promoCode', promoCode);
+      } else {
+        localStorage.removeItem('promoCode');
+      }
+      renderCart();
+    };
+    // Gestion des boutons quantité et suppression
+    document.getElementById('panierBody').onclick = function(e) {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const idx = parseInt(btn.getAttribute('data-idx'));
+      let cart = getCart();
+      if (btn.getAttribute('data-action') === 'plus') {
+        cart[idx].qty++;
+        setCart(cart);
+        renderCart();
+      } else if (btn.getAttribute('data-action') === 'minus') {
+        if (cart[idx].qty > 1) {
+          cart[idx].qty--;
+          setCart(cart);
+          renderCart();
+        }
+      } else if (btn.getAttribute('data-action') === 'remove') {
+        cart.splice(idx, 1);
+        setCart(cart);
+        renderCart();
+      }
+    };
+    // Note de commande
+    document.getElementById('noteToggle').onclick = function() {
+      const field = document.getElementById('noteField');
+      field.style.display = field.style.display === 'block' ? 'none' : 'block';
+      this.querySelector('i').className = field.style.display === 'block' ? 'fas fa-minus' : 'fas fa-plus';
+    };
+    // Calculateur de frais de port
+    document.getElementById('shippingToggle').onclick = function() {
+      const field = document.getElementById('shippingField');
+      field.style.display = field.style.display === 'block' ? 'none' : 'block';
+      this.querySelector('i').className = field.style.display === 'block' ? 'fas fa-minus' : 'fas fa-plus';
+    };
+    document.getElementById('shippingSelect').onchange = renderCart;
+    // Paiement
+    document.getElementById('checkoutBtn').onclick = function() {
+      const cart = getCart();
+      if (!cart.length) return alert('Votre panier est vide.');
+      localStorage.setItem('paiement_panier', JSON.stringify(cart));
+      window.location.href = 'paiement.html';
+    };
+    document.getElementById('backToShop').onclick = function() {
+      window.location.href = 'Printxe3d.fr.html#store';
+    };
+    // Initialisation
+    renderCart();
+  </script>
+</body>
+</html>
