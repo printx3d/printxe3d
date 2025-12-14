@@ -188,7 +188,7 @@
     let article = null;
     try { article = JSON.parse(data); } catch(e) {}
     if (!article) {
-      document.body.innerHTML = '<div style="text-align:center;padding:60px;font-size:1.3em">Aucun produit sélectionné.<br><a href=\'Printxe3d.fr.html#store\'>Retour boutique</a></div>';
+      document.body.innerHTML = '<div style="text-align:center;padding:60px;font-size:1.3em">Aucun produit sélectionné.<br><a href=\'index.html#store\'>Retour boutique</a></div>';
     } else {
       // --- Initialisation des états ---
       let selectedColor = COLORS[0];
@@ -322,7 +322,7 @@
       };
       // --- Retour site web ---
       document.getElementById('backToSite').onclick = function() {
-        window.location.href = 'Printxe3d.fr.html#store';
+        window.location.href = 'index.html#store';
       };
       // --- Description longue ---
       document.getElementById('longDesc').innerHTML = (article.description || '').split('<br>').slice(1).join('<br>') || 'Description détaillée du produit.';
