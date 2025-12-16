@@ -316,6 +316,8 @@
           size: selectedSize.name,
           qty: qty
         };
+        // Nettoyer la note de commande si existante
+        localStorage.removeItem('noteCommande');
         localStorage.setItem('paiement_article', JSON.stringify(item));
         localStorage.removeItem('paiement_panier');
         window.location.href = 'paiement.html';
