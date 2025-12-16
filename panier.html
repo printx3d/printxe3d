@@ -236,6 +236,13 @@
     document.getElementById('checkoutBtn').onclick = function() {
       const cart = getCart();
       if (!cart.length) return alert('Votre panier est vide.');
+      // Stocker la note de commande si présente
+      const note = document.getElementById('noteTextarea') ? document.getElementById('noteTextarea').value.trim() : '';
+      if (note) {
+        localStorage.setItem('noteCommande', note);
+      } else {
+        localStorage.removeItem('noteCommande');
+      }
       localStorage.setItem('paiement_panier', JSON.stringify(cart));
       window.location.href = 'paiement.html';
     };
