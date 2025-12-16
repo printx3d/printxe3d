@@ -156,6 +156,8 @@
       const ville = document.getElementById('ville').value.trim();
       const email = document.getElementById('email').value.trim();
       const tel = document.getElementById('tel').value.trim();
+      const livraisonSel = document.getElementById('livraison');
+      const livraisonTxt = livraisonSel.options[livraisonSel.selectedIndex].text.split('—')[0].trim();
       // Champs obligatoires
       if (!prenom) { valid = false; err.push('Prénom obligatoire'); }
       if (!nom) { valid = false; err.push('Nom obligatoire'); }
@@ -172,19 +174,56 @@
       } else {
         errDiv.style.display = 'none';
       }
-      document.getElementById('successMsg').style.display = 'block';
-      // Vider uniquement ce qui a été payé
+      // Récupérer la note de commande si présente (depuis localStorage)
+      let note = '';
+      try {
+        note = localStorage.getItem('noteCommande') || '';
+      } catch(e) {}
+      // Récupérer les articles
+      let articles = [];
+      if (panier && Array.isArray(panier) && panier.length > 0) {
+        articles = panier;
+      } else if (article) {
+        articles = [article];
+      }
+      // Calcul du total payé (reprend le calcul du renderTotal)
+      let totalSansLivraison = 0;
+      articles.forEach(a => { totalSansLivraison += (a.price || 0) * (a.qty || 1); });
+      let remisePromo = 0;
+      const hiddenPromo = getHiddenPromo();
+      if (promoCode && promoCode.toLowerCase() === hiddenPromo) {
+        remisePromo = 0.1 * totalSansLivraison;
+      }
+      const livraisonPrice = livraisonSel ? parseFloat(livraisonSel.options[livraisonSel.selectedIndex].getAttribute('data-price')) : 4.9;
+      let total = totalSansLivraison - remisePromo + livraisonPrice;
+      // Générer un numéro de commande unique
+      function genCommandeNum() {
+        const t = Date.now();
+        const r = Math.floor(Math.random()*1000);
+        return `PX3D-${t}-${r}`;
+      }
+      // Stocker la fiche commande dans localStorage
+      let fiche = {
+        prenom, nom, adresse, cp, ville, email, tel,
+        livraison: livraisonTxt,
+        articles,
+        total: total.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }),
+        note: note
+      };
+      fiche.numeroCommande = genCommandeNum();
+      localStorage.setItem('fiche_commande', JSON.stringify(fiche));
+      // Nettoyage panier et promo
       if (article) {
-        // Achat direct : ne rien toucher au panier
         localStorage.removeItem('paiement_article');
       } else if (panier && Array.isArray(panier)) {
-        // Paiement du panier : vider le panier
         localStorage.removeItem('cart');
         localStorage.removeItem('paiement_panier');
       }
-      // Nettoyer le code promo après paiement
       localStorage.removeItem('promoCode');
-      setTimeout(()=>window.location.href='index.html', 1800);
+      // Nettoyer la note de commande
+      localStorage.removeItem('noteCommande');
+      // Rediriger vers la fiche commande
+      window.location.href = 'fiche-commande.html';
     };
     document.getElementById('backToSite').onclick = function() {
       window.location.href = 'index.html';
