@@ -1,0 +1,137 @@
+<!-- JS Google Forms supprimé, prêt pour repartir sur une base propre -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche Commande – Impression 3D</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { background: #111; color: #fff; font-family: Inter, Arial, sans-serif; margin: 0; }
+    .commande-container { max-width: 600px; margin: 40px auto; background: #222; border-radius: 16px; box-shadow: 0 8px 32px #0004; padding: 32px 24px; }
+    h2 { color: #D7FF2F; margin-top: 0; text-align:center; }
+    .section-title { color: #D7FF2F; font-weight: bold; margin-top: 24px; margin-bottom: 10px; font-size: 1.1em; }
+    .info-row { display: flex; gap: 12px; margin-bottom: 8px; }
+    .info-label { min-width: 140px; color: #bfbfbf; font-weight: 600; }
+    .info-value { font-weight: 500; }
+    .commande-num { font-size: 1.1em; color: #7fd7ff; font-weight: bold; margin-bottom: 18px; text-align:center; }
+    .commande-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+    .commande-table th, .commande-table td { padding: 8px 6px; text-align: left; }
+    .commande-table th { color: #D7FF2F; border-bottom: 2px solid #333; }
+    .commande-table td { border-bottom: 1px solid #232323; }
+    .total-row { font-size: 1.15em; color: #D7FF2F; font-weight: bold; }
+    .instructions { background: #181818; border-radius: 8px; min-height: 48px; padding: 10px; color: #fff; margin-top: 8px; font-size: 1em; }
+    .retour-btn { background: #D7FF2F; color: #111; border: none; border-radius: 8px; padding: 14px; font-weight: bold; font-size: 1.1em; cursor: pointer; width: 100%; margin-top: 28px; }
+    .retour-btn:hover { background: #eaff5f; }
+  </style>
+</head>
+<body>
+  <div class="commande-container">
+    <h2>FICHE COMMANDE – IMPRESSION 3D</h2>
+    <div class="commande-num" id="commandeNum"></div>
+    <div class="section-title">1️⃣ Informations client</div>
+    <div class="info-row"><span class="info-label">Nom / Prénom :</span><span class="info-value" id="clientNom"></span></div>
+    <div class="info-row"><span class="info-label">Adresse e-mail :</span><span class="info-value" id="clientEmail"></span></div>
+    <div class="info-row"><span class="info-label">Téléphone :</span><span class="info-value" id="clientTel"></span></div>
+    <div class="info-row"><span class="info-label">Adresse de livraison :</span><span class="info-value" id="clientAdresse"></span></div>
+    <div class="section-title">2️⃣ Détails de la commande</div>
+    <table class="commande-table">
+      <thead>
+        <tr>
+          <th>Nom de l’article</th>
+          <th>Quantité</th>
+          <th>Couleur</th>
+          <th>Type</th>
+          <th>Livraison</th>
+        </tr>
+      </thead>
+      <tbody id="commandeDetails"></tbody>
+    </table>
+    <div class="section-title">3️⃣ Paiement</div>
+    <div class="info-row"><span class="info-label">Total payé :</span><span class="info-value" id="totalPaye"></span></div>
+    <div class="info-row"><span class="info-label">Mode de paiement :</span><span class="info-value">Carte bancaire</span></div>
+    <div class="section-title" id="instructionsTitle" style="display:none;">4️⃣ Instructions spéciales client</div>
+    <div class="instructions" id="instructions" style="display:none;"></div>
+    <button class="retour-btn" id="retourBtn"><i class="fas fa-arrow-left"></i> Retourner au site web</button>
+  </div>
+  <script>
+    // Génère un numéro de commande unique
+    function genCommandeNum() {
+      const t = Date.now();
+      const r = Math.floor(Math.random()*1000);
+      return `PX3D-${t}-${r}`;
+    }
+
+    // Fonction pour envoyer la commande à Google Forms
+    function envoyerCommandeGoogleForms() {
+      const commandeData = JSON.parse(localStorage.getItem('fiche_commande')||'null');
+      if (!commandeData) return;
+      const numeroCommande = commandeData.numeroCommande || '';
+      // Empêcher l'envoi multiple
+      if (localStorage.getItem('commande_envoyee_' + numeroCommande)) return;
+
+      // Mapping des champs Google Forms avec les bons entry.XYZ
+      const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSesAWs9oGCkzm2O_qGYgj0jmj6msulBKoSXQPHr1GPO8iF3yA/formResponse';
+      const formData = new FormData();
+      formData.append('entry.514326546', numeroCommande); // Numéro de commande
+      formData.append('entry.1184392215', (commandeData.nom||'') + ' ' + (commandeData.prenom||'')); // Nom / Prénom
+      formData.append('entry.45628843', commandeData.email||''); // Adresse e-mail
+      formData.append('entry.1942549476', commandeData.tel||''); // Téléphone
+      formData.append('entry.542960727', (commandeData.adresse||'') + ', ' + (commandeData.cp||'') + ' ' + (commandeData.ville||'')); // Adresse de livraison
+      // Articles (concaténés)
+      let articles = (commandeData.articles||[]).map(a => `${a.title} (x${a.qty})`).join(', ');
+      formData.append('entry.2068436792', articles); // Nom de l’article
+      formData.append('entry.361340678', (commandeData.articles||[]).map(a=>a.qty).join(', ')); // Quantité
+      formData.append('entry.1611038415', (commandeData.articles||[]).map(a=>a.color||'').join(', ')); // Couleur
+      formData.append('entry.852927084', (commandeData.articles||[]).map(a=>a.mat||a.type||'').join(', ')); // Matière
+      formData.append('entry.1940471186', commandeData.livraison||''); // Livraison
+      formData.append('entry.904860056', commandeData.total||''); // Total payé
+      formData.append('entry.628881101', 'Carte bancaire'); // Mode de paiement (fixe ici)
+
+      // Envoi
+      fetch(formUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      }).then(() => {
+        localStorage.setItem('commande_envoyee_' + numeroCommande, '1');
+      });
+    }
+
+    // Récupère les infos stockées temporairement
+    const commandeData = JSON.parse(localStorage.getItem('fiche_commande')||'null');
+    if (!commandeData) {
+      document.body.innerHTML = '<div style="text-align:center;padding:60px;font-size:1.2em">Aucune commande à afficher.<br><a href="index.html">Retour site web</a></div>';
+    } else {
+      document.getElementById('commandeNum').textContent = 'Numéro de commande : ' + (commandeData.numeroCommande || '');
+      document.getElementById('clientNom').textContent = commandeData.nom + ' ' + commandeData.prenom;
+      document.getElementById('clientEmail').textContent = commandeData.email;
+      document.getElementById('clientTel').textContent = commandeData.tel;
+      document.getElementById('clientAdresse').textContent = commandeData.adresse + ', ' + commandeData.cp + ' ' + commandeData.ville;
+      // Détails commande (panier ou article unique)
+      let html = '';
+      (commandeData.articles||[]).forEach(a => {
+        // Correction : le type correspond au filament, donc mat ou type
+        const type = a.mat || a.type || '';
+        html += `<tr><td>${a.title}</td><td>${a.qty}</td><td>${a.color||''}</td><td>${type}</td><td>${commandeData.livraison}</td></tr>`;
+      });
+      document.getElementById('commandeDetails').innerHTML = html;
+      document.getElementById('totalPaye').textContent = commandeData.total;
+        if (commandeData.note && commandeData.note.trim() !== '') {
+          document.getElementById('instructions').textContent = commandeData.note;
+          document.getElementById('instructions').style.display = '';
+          document.getElementById('instructionsTitle').style.display = '';
+        } else {
+          document.getElementById('instructions').remove();
+          document.getElementById('instructionsTitle').remove();
+        }
+        document.getElementById('retourBtn').onclick = function() {
+          window.location.href = 'index.html';
+        };
+      // Appel automatique de l'envoi à Google Forms
+      envoyerCommandeGoogleForms();
+    }
+  </script>
+<!-- JS Google Forms supprimé, prêt pour repartir sur une base propre -->
+</body>
+</html>
