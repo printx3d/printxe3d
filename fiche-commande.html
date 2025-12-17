@@ -1,3 +1,4 @@
+<!-- JS Google Forms supprimé, prêt pour repartir sur une base propre -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,34 +26,117 @@
   </style>
 </head>
 <body>
-  <div class="commande-container">
-    <h2>FICHE COMMANDE – IMPRESSION 3D</h2>
-    <div class="commande-num" id="commandeNum"></div>
-    <div class="section-title">1️⃣ Informations client</div>
-    <div class="info-row"><span class="info-label">Nom / Prénom :</span><span class="info-value" id="clientNom"></span></div>
-    <div class="info-row"><span class="info-label">Adresse e-mail :</span><span class="info-value" id="clientEmail"></span></div>
-    <div class="info-row"><span class="info-label">Téléphone :</span><span class="info-value" id="clientTel"></span></div>
-    <div class="info-row"><span class="info-label">Adresse de livraison :</span><span class="info-value" id="clientAdresse"></span></div>
-    <div class="section-title">2️⃣ Détails de la commande</div>
-    <table class="commande-table">
-      <thead>
-        <tr>
-          <th>Nom de l’article</th>
-          <th>Quantité</th>
-          <th>Couleur</th>
-          <th>Type</th>
-          <th>Livraison</th>
-        </tr>
-      </thead>
-      <tbody id="commandeDetails"></tbody>
-    </table>
-    <div class="section-title">3️⃣ Paiement</div>
-    <div class="info-row"><span class="info-label">Total payé :</span><span class="info-value" id="totalPaye"></span></div>
-    <div class="info-row"><span class="info-label">Mode de paiement :</span><span class="info-value">Carte bancaire</span></div>
-    <div class="section-title" id="instructionsTitle" style="display:none;">4️⃣ Instructions spéciales client</div>
-    <div class="instructions" id="instructions" style="display:none;"></div>
-    <button class="retour-btn" id="retourBtn"><i class="fas fa-arrow-left"></i> Retourner au site web</button>
+  <div class="commande-container" id="factureContainer" style="background:none;box-shadow:none;padding:0;max-width:none;">
+    <a href="index.html" style="display:block;text-align:left;margin-bottom:18px;color:#888;font-size:13px;text-decoration:none;opacity:0.7;transition:opacity .2s;">&larr; Retour au site web</a>
+    <div class="invoice-container" id="pdf">
+      <header class="header">
+        <div class="brand">
+          <h1>Printxe3D</h1>
+          <p>Service d'impression 3D</p>
+        </div>
+        <div class="invoice-meta">
+          <div class="meta-list">
+            N° <span id="facture-num"></span><br>
+            Date : <span id="facture-date"></span><br>
+            Ref : <span id="commande-num"></span>
+          </div>
+        </div>
+      </header>
+      <div class="addresses">
+        <div class="addr-block">
+          <span class="addr-title">Émetteur</span>
+          <div class="addr-content">
+            <strong>Printxe3D</strong>
+            <p>contact@printxe3d.fr</p>
+          </div>
+        </div>
+        <div class="addr-block">
+          <span class="addr-title">Facturé à</span>
+          <div class="addr-content">
+            <strong id="client-nom"></strong>
+            <p id="client-adresse"></p>
+            <p id="client-ville"></p>
+            <p style="color:var(--text-gray); margin-top:5px;" id="client-email"></p>
+            <p style="color:var(--text-gray);" id="client-tel"></p>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th width="40%">Description</th>
+            <th class="center">Qté</th>
+            <th>Détails</th>
+            <th class="right">Total</th>
+          </tr>
+        </thead>
+        <tbody id="items"></tbody>
+      </table>
+      <div class="totals">
+        <div class="totals-box">
+          <div class="total-row">Paiement : Carte bancaire</div>
+          <div class="total-row total-final">Total : <span id="total"></span> €</div>
+        </div>
+      </div>
+      <footer class="legal-footer">
+        <p>
+          <strong>Printxe3D</strong> — Service d'impression 3D<br>
+          Siège social : Non encore attribué • Registre : Non encore attribué<br>
+          SIRET / SIREN : Non encore attribué<br>
+          <em>TVA non applicable – micro‑entreprise (Article 293 B du CGI)</em>
+        </p>
+        <a href="#" class="btn-download" id="btnTelechargerFacture">Télécharger la facture PDF</a>
+      </footer>
+    </div>
   </div>
+  <style>
+    :root {
+      --bg-body: #050505;
+      --bg-card: #141414;
+      --border: #333333;
+      --text-white: #ffffff;
+      --text-gray: #888888;
+    }
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .invoice-container { background-color: var(--bg-card); width: 100%; max-width: 800px; padding: 60px; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.7); }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 60px; border-bottom: 1px solid var(--border); padding-bottom: 30px; }
+    .brand h1 { margin: 0; font-size: 32px; letter-spacing: -0.5px; font-weight: 700; }
+    .brand p { margin: 5px 0 0 0; color: var(--text-gray); font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+    .invoice-meta { text-align: right; }
+    .invoice-meta h2 { margin: 0; font-size: 20px; font-weight: 500; }
+    .meta-list { margin-top: 10px; font-size: 14px; color: var(--text-gray); line-height: 1.6; }
+    .meta-list span { color: var(--text-white); }
+    .addresses { display: flex; justify-content: space-between; margin-bottom: 50px; }
+    .addr-block { width: 45%; }
+    .addr-title { font-size: 12px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 5px; display: inline-block; }
+    .addr-content p { margin: 4px 0; font-size: 14px; line-height: 1.5; }
+    .addr-content strong { font-size: 16px; display: block; margin-bottom: 5px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+    th { text-align: left; font-size: 12px; text-transform: uppercase; color: var(--text-gray); padding: 15px 10px; border-bottom: 1px solid var(--border); }
+    td { padding: 15px 10px; border-bottom: 1px solid #222; font-size: 14px; }
+    .details-col { color: var(--text-gray); font-size: 13px; }
+    .right { text-align: right; }
+    .center { text-align: center; }
+    .totals { display: flex; justify-content: flex-end; }
+    .totals-box { width: 300px; text-align: right; }
+    .total-row { padding: 8px 0; font-size: 14px; color: var(--text-gray); }
+    .total-final { font-size: 22px; font-weight: bold; color: var(--text-white); border-top: 1px solid var(--border); margin-top: 15px; padding-top: 15px; }
+    .legal-footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; color: #555; font-size: 11px; line-height: 1.6; }
+    .btn-download { display: block; width: fit-content; margin: 40px auto 0; border: 1px solid var(--text-white); color: var(--text-white); padding: 10px 30px; text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+    .btn-download:hover { background-color: var(--text-white); color: #000; }
+    @media (max-width: 600px) { .invoice-container { padding: 30px 20px; } .header, .addresses { flex-direction: column; } .invoice-meta { text-align: left; margin-top: 20px; } .addr-block { width: 100%; margin-bottom: 30px; } .meta-list { word-break: break-all; } }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     // Génère un numéro de commande unique
     function genCommandeNum() {
@@ -102,36 +186,136 @@
     if (!commandeData) {
       document.body.innerHTML = '<div style="text-align:center;padding:60px;font-size:1.2em">Aucune commande à afficher.<br><a href="index.html">Retour site web</a></div>';
     } else {
-      document.getElementById('commandeNum').textContent = 'Numéro de commande : ' + (commandeData.numeroCommande || '');
-      document.getElementById('clientNom').textContent = commandeData.nom + ' ' + commandeData.prenom;
-      document.getElementById('clientEmail').textContent = commandeData.email;
-      document.getElementById('clientTel').textContent = commandeData.tel;
-      document.getElementById('clientAdresse').textContent = commandeData.adresse + ', ' + commandeData.cp + ' ' + commandeData.ville;
-      // Détails commande (panier ou article unique)
-      let html = '';
-      (commandeData.articles||[]).forEach(a => {
-        // Correction : le type correspond au filament, donc mat ou type
-        const type = a.mat || a.type || '';
-        html += `<tr><td>${a.title}</td><td>${a.qty}</td><td>${a.color||''}</td><td>${type}</td><td>${commandeData.livraison}</td></tr>`;
-      });
-      document.getElementById('commandeDetails').innerHTML = html;
-      document.getElementById('totalPaye').textContent = commandeData.total;
-        if (commandeData.note && commandeData.note.trim() !== '') {
-          document.getElementById('instructions').textContent = commandeData.note;
-          document.getElementById('instructions').style.display = '';
-          document.getElementById('instructionsTitle').style.display = '';
-        } else {
-          document.getElementById('instructions').remove();
-          document.getElementById('instructionsTitle').remove();
-        }
-        document.getElementById('retourBtn').onclick = function() {
-          window.location.href = 'index.html';
-        };
-      // Appel automatique de l'envoi à Google Forms
+      // Appel automatique de l'envoi à Google Forms (on garde l'envoi)
       envoyerCommandeGoogleForms();
+
+      // Remplir la facture avec les données de la commande
+      document.getElementById('commande-num').textContent = commandeData.numeroCommande || '';
+      document.getElementById('facture-date').textContent = new Date().toLocaleDateString('fr-FR');
+      document.getElementById('client-nom').textContent = (commandeData.nom || '') + ' ' + (commandeData.prenom || '');
+      document.getElementById('client-adresse').textContent = (commandeData.adresse || '');
+      document.getElementById('client-ville').textContent = (commandeData.cp || '') + ' ' + (commandeData.ville || '');
+      document.getElementById('client-email').textContent = commandeData.email || '';
+      document.getElementById('client-tel').textContent = commandeData.tel || '';
+      // Articles
+      const tbody = document.getElementById('items');
+      tbody.innerHTML = '';
+      let total = 0;
+      (commandeData.articles||[]).forEach(a => {
+        const tr = document.createElement('tr');
+        const type = a.mat || a.type || '';
+        const details = [type, a.color, 'Livraison ' + (commandeData.livraison||'')].filter(Boolean).join(' / ');
+        const prix = ((a.price||0) * (a.qty||1)).toFixed(2);
+        tr.innerHTML = `<td>${a.title}</td><td class='center'>${a.qty}</td><td class='details-col'>${details}</td><td class='right'>${prix} €</td>`;
+        tbody.appendChild(tr);
+        total += (a.price||0) * (a.qty||1);
+      });
+      document.getElementById('total').textContent = total.toFixed(2);
+
+      // Attribuer le numéro de facture unique APRÈS validation de la commande
+      // Si déjà stocké dans fiche_commande, on l'utilise, sinon on le récupère et on le stocke
+      const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNkvu4sOKGoLMflrcK7I8MQlEkhQfEAhTsUJKKlY-Afd0xzc8mrG5MJSbpmjHqOQTkSw/exec";
+      function getFactureNumberFromScript(callback) {
+        fetch(APPS_SCRIPT_URL)
+          .then(r => r.json())
+          .then(data => callback(data.factureNum))
+          .catch(() => callback('?'));
+      }
+      // Si le numéro de facture n'est pas déjà attribué, on le récupère et on le stocke
+      if (!commandeData.numeroFacture) {
+        getFactureNumberFromScript(function(factureNum) {
+          document.getElementById('facture-num').textContent = factureNum;
+          // On stocke le numéro dans fiche_commande pour qu'il reste unique
+          commandeData.numeroFacture = factureNum;
+          localStorage.setItem('fiche_commande', JSON.stringify(commandeData));
+        });
+      } else {
+        document.getElementById('facture-num').textContent = commandeData.numeroFacture;
+      }
+
+      // Bouton de téléchargement PDF
+      document.getElementById('btnTelechargerFacture').onclick = function(e) {
+        e.preventDefault();
+        const numFacture = commandeData.numeroFacture || document.getElementById('facture-num').textContent || '';
+        let jsPDFLib = window.jspdf || window.jsPDF;
+        if (!(jsPDFLib && jsPDFLib.jsPDF)) {
+          alert("Erreur : la librairie jsPDF n'est pas chargée.");
+          return;
+        }
+        const doc = new jsPDFLib.jsPDF({unit: 'mm', format: 'a4'});
+        doc.setFont('helvetica', '');
+        doc.setFontSize(13);
+        let y = 18;
+        // En-tête
+        doc.setFontSize(18);
+        doc.text('Facture', 105, y, {align: 'center'});
+        y += 10;
+        doc.setFontSize(12);
+        doc.text(`Printxe3D — Service d'impression 3D`, 105, y, {align: 'center'});
+        y += 10;
+        doc.setFontSize(11);
+        doc.text(`Facture n° : ${numFacture}`, 14, y);
+        doc.text(`Date : ${document.getElementById('facture-date').textContent}`, 105, y, {align: 'center'});
+        doc.text(`Commande : ${commandeData.numeroCommande || ''}`, 200, y, {align: 'right'});
+        y += 12;
+        // Client
+        doc.setFontSize(12);
+        doc.text('Facturé à :', 14, y);
+        y += 6;
+        doc.setFontSize(11);
+        doc.text(`${(commandeData.nom || '') + ' ' + (commandeData.prenom || '')}`, 14, y);
+        y += 6;
+        doc.text(`${(commandeData.adresse || '')}`, 14, y);
+        y += 6;
+        doc.text(`${(commandeData.cp || '')} ${(commandeData.ville || '')}`, 14, y);
+        y += 6;
+        doc.text(`Email : ${commandeData.email || ''}`, 14, y);
+        y += 6;
+        doc.text(`Téléphone : ${commandeData.tel || ''}`, 14, y);
+        y += 10;
+        // Tableau articles
+        doc.setFontSize(12);
+        doc.text('Description', 14, y);
+        doc.text('Qté', 100, y, {align: 'center'});
+        doc.text('Détails', 120, y);
+        doc.text('Total', 200, y, {align: 'right'});
+        y += 3;
+        doc.setLineWidth(0.2);
+        doc.line(14, y, 196, y);
+        y += 7;
+        doc.setFontSize(11);
+        let total = 0;
+        (commandeData.articles||[]).forEach(a => {
+          const type = a.mat || a.type || '';
+          const details = [type, a.color, 'Livraison ' + (commandeData.livraison||'')].filter(Boolean).join(' / ');
+          const prix = ((a.price||0) * (a.qty||1)).toFixed(2);
+          doc.text(a.title, 14, y);
+          doc.text(String(a.qty), 100, y, {align: 'center'});
+          doc.text(details, 120, y);
+          doc.text(prix + ' €', 200, y, {align: 'right'});
+          y += 7;
+          total += (a.price||0) * (a.qty||1);
+        });
+        y += 2;
+        doc.setLineWidth(0.2);
+        doc.line(14, y, 196, y);
+        y += 10;
+        // Totaux
+        doc.setFontSize(12);
+        doc.text('Paiement : Carte bancaire', 14, y);
+        doc.setFontSize(14);
+        doc.text('Total payé : ' + total.toFixed(2) + ' €', 200, y, {align: 'right'});
+        y += 15;
+        // Pied de page
+        doc.setFontSize(10);
+        doc.text("Émetteur : Printxe3D — contact@printxe3d.fr", 14, y);
+        y += 5;
+        doc.text("TVA non applicable – micro‑entreprise (Article 293 B du CGI)", 14, y);
+        y += 10;
+        doc.save(`facture-${numFacture}-${commandeData.numeroCommande||''}.pdf`);
+      };
     }
   </script>
 <!-- JS Google Forms supprimé, prêt pour repartir sur une base propre -->
 </body>
 </html>
-
