@@ -67,7 +67,6 @@
       </table>
       <!-- Champ code promo déplacé dans le récapitulatif -->
       <div class="note-section">
-        <button class="note-toggle" id="noteToggle"><i class="fas fa-plus"></i> Ajouter une note de commande</button>
         <div class="note-field" id="noteField">
           <textarea id="noteTextarea" placeholder="Votre note pour la commande..."></textarea>
         </div>
@@ -219,13 +218,6 @@
         renderCart();
       }
     };
-    // Note de commande
-    document.getElementById('noteToggle').onclick = function() {
-      const field = document.getElementById('noteField');
-      field.style.display = field.style.display === 'block' ? 'none' : 'block';
-      this.querySelector('i').className = field.style.display === 'block' ? 'fas fa-minus' : 'fas fa-plus';
-    };
-    // Calculateur de frais de port
     document.getElementById('shippingToggle').onclick = function() {
       const field = document.getElementById('shippingField');
       field.style.display = field.style.display === 'block' ? 'none' : 'block';
@@ -253,4 +245,5 @@
   </script>
 </body>
 </html>
+
 
