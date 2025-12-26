@@ -172,7 +172,18 @@
     // Stripe public key à remplacer par la vôtre
     const stripe = Stripe('pk_test_51SialFF0VU4FX7rqcX0gtwAUiSLLa8lIpoSO64pLyf63xwA6tibgXmz1Il8jbzhfyfDT7kdIBfweKa8gxcaZjbff00u21cVgmg');
     const elements = stripe.elements();
-    const card = elements.create('card', { style: { base: { fontSize: '16px', color: '#111' } } });
+    const card = elements.create('card', {
+      style: {
+        base: {
+          fontSize: '16px',
+          color: '#FFFFFF',
+          '::placeholder': { color: '#CCCCCC' }
+        },
+        invalid: {
+          color: '#ffb4b4'
+        }
+      }
+    });
     card.mount('#card-element');
 
     const loader = document.getElementById('loader');
