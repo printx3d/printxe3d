@@ -7,6 +7,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     body { background: #13150C; color: #fff; font-family: Inter, Arial, sans-serif; margin: 0; }
+    .loader {
+      color: #fff;
+      font-size: 48px;
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) translateZ(0);
+      text-indent: -9999em;
+      animation: mulShdSpin 1.3s infinite linear;
+      z-index: 9999;
+      display: none;
+    }
+    @keyframes mulShdSpin {
+      0%,100% { box-shadow: 0 -3em 0 0.2em,2em -2em 0 0em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 0; }
+      12.5% { box-shadow: 0 -3em 0 0,2em -2em 0 0.2em,3em 0 0 0,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 -1em; }
+      25% { box-shadow: 0 -3em 0 -0.5em,2em -2em 0 0,3em 0 0 0.2em,2em 2em 0 0,0 3em 0 -1em,-2em 2em 0 -1em,-3em 0 0 -1em,-2em -2em 0 -1em; }
+      37.5% { box-shadow: 0 -3em 0 -1em,2em -2em 0 -1em,3em 0em 0 0,2em 2em 0 0.2em,0 3em 0 0em,-2em 2em 0 -1em,-3em 0em 0 -1em,-2em -2em 0 -1em; }
+      50% { box-shadow: 0 -3em 0 -1em,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 0em,0 3em 0 0.2em,-2em 2em 0 0,-3em 0em 0 -1em,-2em -2em 0 -1em; }
+      62.5% { box-shadow: 0 -3em 0 -1em,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 0,-2em 2em 0 0.2em,-3em 0 0 0,-2em -2em 0 -1em; }
+      75% { box-shadow: 0em -3em 0 -1em,2em -2em 0 -1em,3em 0em 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 0,-3em 0em 0 0.2em,-2em -2em 0 0; }
+      87.5% { box-shadow: 0em -3em 0 0,2em -2em 0 -1em,3em 0 0 -1em,2em 2em 0 -1em,0 3em 0 -1em,-2em 2em 0 0,-3em 0em 0 0,-2em -2em 0 0.2em; }
+    }
     .container { max-width: 80%; margin: 40px auto; background: #0B0C04; border-radius: 16px; box-shadow: 0 8px 32px #0004; padding: 32px 24px; }
     h2 { color: #D7FF2F; margin-top: 0; }
     .product-summary { display: flex; gap: 18px; align-items: center; margin-bottom: 24px; }
@@ -53,6 +78,7 @@
       <button type="submit">Payer</button>
     </form>
     <button id="backToSite" style="background:#13150C;color:#FFFFFF;margin-top:18px;width:100%;border:none;padding:12px 0;border-radius:8px;font-weight:bold;font-size:1em;cursor:pointer;">Retourner au site web</button>
+    <span class="loader" id="loader">Chargement…</span>
     <div class="success" id="successMsg" style="display:none;">Paiement simulé avec succès !</div>
   </div>
   <!-- Stripe.js -->
@@ -149,8 +175,10 @@
     const card = elements.create('card', { style: { base: { fontSize: '16px', color: '#111' } } });
     card.mount('#card-element');
 
+    const loader = document.getElementById('loader');
     document.getElementById('fakePaymentForm').onsubmit = async function(e) {
       e.preventDefault();
+      loader.style.display = 'block';
       // Validation adresse (identique)
       let valid = true;
       let err = [];
@@ -174,6 +202,7 @@
       if (!valid) {
         errDiv.style.display = 'block';
         errDiv.textContent = err.join(' · ');
+        loader.style.display = 'none';
         return;
       } else {
         errDiv.style.display = 'none';
@@ -207,6 +236,7 @@
         clientSecret = data.clientSecret;
       } catch (err) {
         document.getElementById('card-errors').textContent = 'Erreur serveur paiement.';
+        loader.style.display = 'none';
         return;
       }
 
@@ -219,6 +249,7 @@
       });
       if (error) {
         document.getElementById('card-errors').textContent = error.message;
+        loader.style.display = 'none';
         return;
       }
       // Paiement réussi : stocker la commande et rediriger
@@ -247,6 +278,7 @@
       }
       localStorage.removeItem('promoCode');
       localStorage.removeItem('noteCommande');
+      loader.style.display = 'none';
       window.location.href = 'fiche-commande.html';
     };
     document.getElementById('backToSite').onclick = function() {
