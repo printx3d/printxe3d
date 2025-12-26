@@ -43,7 +43,7 @@
       font-size: 1.1em;
       margin-top: 0;
       z-index: 10;
-      background: ##0B0C04;
+      background: #0B0C04;
       border-radius: 10px;
       padding: 12px 18px;
       min-width: 220px;
@@ -69,6 +69,7 @@
     <div class="product-summary" id="productSummary">
       <!-- Infos produit injectées par JS -->
     </div>
+    <div id="payment-request-button" style="margin-bottom:18px;"></div>
     <form id="fakePaymentForm" autocomplete="on" novalidate>
       <fieldset style="border:none;padding:0;margin-bottom:18px;">
         <legend style="font-weight:bold;color:#D7FF2F;margin-bottom:8px;">Adresse de livraison</legend>
@@ -188,6 +189,140 @@
     // Stripe public key à remplacer par la vôtre
     const stripe = Stripe('pk_test_51SialFF0VU4FX7rqcX0gtwAUiSLLa8lIpoSO64pLyf63xwA6tibgXmz1Il8jbzhfyfDT7kdIBfweKa8gxcaZjbff00u21cVgmg');
     const elements = stripe.elements();
+
+    // --- Apple Pay / Payment Request Button Stripe ---
+    let paymentRequest = stripe.paymentRequest({
+      country: 'FR',
+      currency: 'eur',
+      total: {
+        label: 'Total à payer',
+        amount: Math.round((totalSansLivraison + 4.9) * 100), // valeur par défaut, ajustée dynamiquement
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+      requestPayerPhone: true,
+      requestShipping: false
+    });
+
+    const prButton = elements.create('paymentRequestButton', {
+      paymentRequest: paymentRequest,
+      style: {
+        paymentRequestButton: {
+          type: 'default',
+          theme: 'dark',
+          height: '44px',
+        }
+      }
+    });
+
+    paymentRequest.canMakePayment().then(function(result) {
+      if (result) {
+        document.getElementById('payment-request-button').style.display = 'block';
+        prButton.mount('#payment-request-button');
+      } else {
+        document.getElementById('payment-request-button').style.display = 'none';
+      }
+    });
+
+    // Met à jour le montant du paymentRequest lors du changement de livraison
+    document.getElementById('livraison').addEventListener('change', function() {
+      const livraison = document.getElementById('livraison');
+      const livraisonPrice = livraison ? parseFloat(livraison.options[livraison.selectedIndex].getAttribute('data-price')) : 4.9;
+      let total = totalSansLivraison;
+      if (promoCode && promoCode.toLowerCase() === getHiddenPromo()) {
+        total -= 0.1 * totalSansLivraison;
+      }
+      total += livraisonPrice;
+      paymentRequest.update({
+        total: {
+          label: 'Total à payer',
+          amount: Math.round(total * 100)
+        }
+      });
+    });
+
+    paymentRequest.on('paymentmethod', async function(ev) {
+      // Même logique que submit, mais pour Apple Pay/Google Pay
+      let articles = [];
+      if (panier && Array.isArray(panier) && panier.length > 0) {
+        articles = panier;
+      } else if (article) {
+        articles = [article];
+      }
+      let totalSansLivraison_ = 0;
+      articles.forEach(a => { totalSansLivraison_ += (a.price || 0) * (a.qty || 1); });
+      let remisePromo_ = 0;
+      if (promoCode && promoCode.toLowerCase() === getHiddenPromo()) {
+        remisePromo_ = 0.1 * totalSansLivraison_;
+      }
+      const livraisonSel = document.getElementById('livraison');
+      const livraisonPrice_ = livraisonSel ? parseFloat(livraisonSel.options[livraisonSel.selectedIndex].getAttribute('data-price')) : 4.9;
+      let total_ = totalSansLivraison_ - remisePromo_ + livraisonPrice_;
+      let email_ = ev.payerEmail || '';
+      // Appel serveur pour créer PaymentIntent Stripe
+      let clientSecret_;
+      try {
+        const res = await fetch('https://printxe3d.onrender.com/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: Math.round(total_ * 100), currency: 'eur', description: 'Paiement Printxe3D', email: email_ })
+        });
+        const data = await res.json();
+        clientSecret_ = data.clientSecret;
+      } catch (err) {
+        ev.complete('fail');
+        alert('Erreur serveur paiement.');
+        return;
+      }
+      // Confirmer le paiement Stripe
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret_, {
+        payment_method: ev.paymentMethod.id,
+        payment_method_options: { card: { request_three_d_secure: 'any' } },
+        receipt_email: email_,
+      }, { handleActions: false });
+      if (error) {
+        ev.complete('fail');
+        alert(error.message);
+        return;
+      }
+      ev.complete('success');
+      // Paiement réussi : stocker la commande et rediriger
+      let note = '';
+      try { note = localStorage.getItem('noteCommande') || ''; } catch(e) {}
+      function genCommandeNum() {
+        const t = Date.now();
+        const r = Math.floor(Math.random()*1000);
+        return `PX3D-${t}-${r}`;
+      }
+      let fiche = {
+        prenom: ev.payerName || '',
+        nom: '',
+        adresse: '',
+        cp: '',
+        ville: '',
+        email: email_,
+        tel: ev.payerPhone || '',
+        livraison: livraisonSel.options[livraisonSel.selectedIndex].text.split('—')[0].trim(),
+        articles,
+        total: total_.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }),
+        note: note,
+        numeroCommande: genCommandeNum(),
+        stripePaymentId: paymentIntent.id
+      };
+      localStorage.setItem('fiche_commande', JSON.stringify(fiche));
+      if (article) {
+        localStorage.removeItem('paiement_article');
+      } else if (panier && Array.isArray(panier)) {
+        localStorage.removeItem('cart');
+        localStorage.removeItem('paiement_panier');
+      }
+      localStorage.removeItem('promoCode');
+      localStorage.removeItem('noteCommande');
+      window.location.href = 'fiche-commande.html';
+    });
+
+    // --- Fin Apple Pay ---
+
     const card = elements.create('card', {
       style: {
         base: {
@@ -314,3 +449,5 @@
   </script>
 </body>
 </html>
+
+
