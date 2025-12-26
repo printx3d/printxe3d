@@ -198,7 +198,7 @@
       // Appel serveur pour créer PaymentIntent Stripe
       let clientSecret;
       try {
-        const res = await fetch('https://printxe3d.onrender.com/', {
+        const res = await fetch('https://printxe3d.onrender.com/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ amount: Math.round(total * 100), currency: 'eur', description: 'Paiement Printxe3D', email })
