@@ -110,6 +110,12 @@ nav a:hover::after {
     .viewer{height:420px;border-radius:var(--radius);background:var(--bg-soft);border:1px solid rgba(255,255,255,.06)}
     .featGrid{grid-template-columns:repeat(4,1fr)}
     @media (max-width:900px){.featGrid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){
+      .featGrid {
+        display: grid !important;
+        grid-template-columns: repeat(2,1fr) !important;
+      }
+    }
     .toolbar{display:flex;flex-direction:row !important;gap:10px;align-items:flex-end;min-width:0;max-width:none}
     .toolbar input,.toolbar select{background:#0b0b0b;border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:12px;padding:.6rem .8rem;outline:none}
     .prodGrid {
@@ -1498,7 +1504,124 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
 <body>
   <div class="bg-green-halo"></div>
   <div id="cartToast" style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#D7FF2F;color:#222;padding:12px 32px;border-radius:16px;font-weight:700;font-size:1.08em;box-shadow:0 2px 18px #0003;z-index:9999;display:none;pointer-events:none;transition:opacity .3s;opacity:0">Ajouté au panier !</div>
-  <header class="site">
+  <!-- Header mobile uniquement -->
+  <style>
+    @media (max-width: 768px) {
+      .desktop-header { display: none !important; }
+      .mobile-header { display: flex !important; }
+    }
+    @media (min-width: 769px) {
+      .mobile-header { display: none !important; }
+    }
+    .mobile-header {
+      width: 100vw;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,.6);
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,0.08);
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5em 1.1em 0.5em 0.7em;
+      height: 60px;
+    }
+    .mobile-header .logo {
+      height: 80px;
+      display: flex;
+      align-items: center;
+    }
+    .mobile-header .menu-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2.1em;
+      cursor: pointer;
+      padding: 0 0.2em;
+      display: flex;
+      align-items: center;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 0;
+      width: 85vw;
+      max-width: 320px;
+      background: #181c12;
+      box-shadow: -2px 0 18px 0 rgba(0,0,0,0.18);
+      border-top-left-radius: 18px;
+      border-bottom-left-radius: 18px;
+      padding: 1.2em 1.1em 1.2em 1.5em;
+      z-index: 2000;
+      flex-direction: column;
+      gap: 1.1em;
+      animation: slideInMenu .32s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: #fff;
+      font-size: 1.13em;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.5em 0;
+      border-radius: 8px;
+      transition: background .18s, color .18s;
+    }
+    .mobile-menu a:hover {
+      background: #D7FF2F;
+      color: #13150C;
+    }
+    .mobile-menu .cart-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      font-weight: 700;
+    }
+    @keyframes slideInMenu {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+  <div class="mobile-header" style="display:none;">
+    <div class="logo">
+      <img src="https://i.ibb.co/23jrYqM8/c83b0d1d-822f-4902-9dcf-d329f164b778-removebg-preview.png" alt="Printxe3D Logo" style="height:80px;">
+    </div>
+    <button class="menu-btn" id="mobileMenuBtn" aria-label="Ouvrir le menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <nav class="mobile-menu" id="mobileMenu">
+      <a href="#home">Accueil</a>
+      <a href="#store">Boutique</a>
+      <a href="#configurator">Configurateur</a>
+      <a href="bibliotheques-3d.html">Ressources</a>
+      <a href="#contact">Contact</a>
+      <a href="#panier" class="cart-link"><img src="https://i.ibb.co/dqgw5vH/panier.png" alt="Panier" style="height:1.3em;vertical-align:middle;">Panier</a>
+    </nav>
+  </div>
+  <script>
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let menuOpen = false;
+    if(menuBtn && mobileMenu){
+      menuBtn.onclick = function(e){
+        e.stopPropagation();
+        menuOpen = !menuOpen;
+        if(menuOpen){
+          mobileMenu.classList.add('open');
+        }else{
+          mobileMenu.classList.remove('open');
+        }
+      };
+      document.addEventListener('click', function(e){
+        if(menuOpen && !mobileMenu.contains(e.target) && e.target !== menuBtn){
+          mobileMenu.classList.remove('open');
+          menuOpen = false;
+        }
+      });
+    }
+  </script>
+  <!-- Fin header mobile -->
+  <header class="site desktop-header">
   <div class="container row" style="justify-content:space-between;">
     <div style="display:flex;align-items:center;gap:24px;">
       <div class="logo" style="margin-left:-18px;">
