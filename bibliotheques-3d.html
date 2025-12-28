@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bibliothèques de modèles 3D</title>
+
+    <!-- Chargement de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Configuration de la police Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .link-card:hover .border-indicator {
+            width: 100%;
+            transition: width 0.3s ease-in-out;
+        }
+        .printables-link .border-indicator { background-color: #FF5D0F !important; }
+        .thangs-link .border-indicator { background-color: #FFC426 !important; }
+        .thingiverse-link .border-indicator { background-color: #008AFF !important; }
+        .cults-link .border-indicator { background-color: #4A5184 !important; }
+
+        /* Couleur du titre au survol de la carte */
+        .printables-link:hover h2 { color: #FF5D0F !important; }
+        .thangs-link:hover h2 { color: #FFC426 !important; }
+        .thingiverse-link:hover h2 { color: #008AFF !important; }
+        .cults-link:hover h2 { color: #4A5184 !important; }
+    </style>
+</head>
+<body class="bg-[#13150C] text-white min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-6xl bg-[#0B0C04] p-6 md:p-12 rounded-2xl professional-card-shadow">
+        <a href="index.html" class="fixed top-6 left-6 z-50 text-white text-sm font-semibold hover:underline focus:underline transition duration-200 opacity-80 hover:opacity-100 focus:opacity-100 px-3 py-1.5 rounded-lg" style="background:#13150C;box-shadow:0 2px 8px 0 rgba(0,0,0,0.10);border:none;outline:none;">
+            ← Retour au site web
+        </a>
+        <header class="mb-10 text-center">
+            <h1 class="text-2xl md:text-3xl font-extrabold text-white uppercase tracking-widest mb-0">
+                <span style="background:#13150C;display:inline-block;padding:0.2em 0.8em;border-radius:0.7em;">Bibliothèques de Modèles 3D</span>
+            </h1>
+            <p class="text-white text-lg pb-4" style="background:#13150C;display:inline-block;padding:0.05em 0.8em 0.15em 0.8em;border-radius:0.7em;margin-top:0;">
+                Après avoir téléchargé votre fichier, envoyez-le à notre 
+                <a href='https://printxe3d.fr/#configurator' target='_blank' class='font-bold hover:underline transition duration-200' style='color:#D7FF2F'>Configurateur 3D</a>.
+            </p>
+        </header>
+
+        <!-- Grille des Ressources (plus dynamique) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Carte de Lien (Chaque carte est un lien) -->
+            
+            <!-- Printables (48x48) -->
+            <a href="https://www.printables.com/model?licenses=7%3A1%3A2%3A8%3A9%3A12%3A10%3A11" target="_blank" class="link-card printables-link block relative p-6 bg-[#13150C] hover:bg-[#13150C] transition duration-300 rounded-xl overflow-hidden group">
+                <!-- Indicateur de survol (animation de bordure) -->
+                <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
+                
+                <div class="flex items-start space-x-4">
+                    <!-- Conteneur 48x48 -->
+                    <div class="flex-shrink-0 w-12 h-12">
+                        <img 
+                            src="https://cdn-1.webcatalog.io/catalog/printables-com/printables-com-icon.png?v=1714776672787" 
+                            alt="Logo Printables" 
+                            class="w-full h-full rounded-lg object-contain group-hover:scale-105 transition-transform bg-white p-1"
+                            onerror="this.onerror=null; this.src='https://placehold.co/48x48/94A3B8/ffffff?text=P'"
+                        >
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-cyan-400 transition duration-300">Printables</h2>
+                        <p class="text-white mt-1 text-sm">Plateforme privilégiée pour l'impression 3D. Modèles fiables, de haute qualité et vérifiés, soutenus par une communauté active.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Thangs (48x48 conteneur, image agrandie) -->
+            <a href="https://thangs.com/tag/commercial%20license" target="_blank" class="link-card thangs-link block relative p-6 bg-[#13150C] hover:bg-[#13150C] transition duration-300 rounded-xl overflow-hidden group">
+                <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
+                <div class="flex items-start space-x-4">
+                    <!-- Conteneur 48x48 -->
+                    <div class="flex-shrink-0 w-12 h-12">
+                        <img 
+                            src="https://i.postimg.cc/W1zxVg0S/httpsi-postimg-cct-RLs-W-N4JDesign-sans-titre-png-(2).png" 
+                            alt="Logo Thangs" 
+                            width="48" height="48"
+                            class="w-12 h-12 rounded-lg object-contain group-hover:scale-110 transition-transform bg-white p-1"
+                            onerror="this.onerror=null; this.src='https://placehold.co/48x48/94A3B8/ffffff?text=T'"
+                        >
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-cyan-400 transition duration-300">Thangs</h2>
+                        <p class="text-white mt-1 text-sm">Moteur de recherche 3D puissant avec reconnaissance de forme. Permet de trouver des modèles complexes à travers de multiples référentiels.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Cults3D (48x48) -->
+            <a href="https://cults3d.com/en/search?only_no_ai=false&only_safe=false&q=commercial+use" target="_blank" class="link-card cults-link block relative p-6 bg-[#13150C] hover:bg-[#13150C] transition duration-300 rounded-xl overflow-hidden group">
+                <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
+                <div class="flex items-start space-x-4">
+                    <!-- Conteneur 48x48 -->
+                    <div class="flex-shrink-0 w-12 h-12">
+                        <img 
+                            src="https://fbi.cults3d.com/uploaders/15515760/illustration-file/56c4839f-f39f-421b-87f6-2ec35bafd4e0/Cults3D-Logo-Open.png" 
+                            alt="Logo Cults3D" 
+                            class="w-full h-full rounded-lg object-contain group-hover:scale-105 transition-transform bg-white p-1"
+                            onerror="this.onerror=null; this.src='https://placehold.co/48x48/94A3B8/ffffff?text=C3D'"
+                        >
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-cyan-400 transition duration-300">Cults3D</h2>
+                        <p class="text-white mt-1 text-sm">Plateforme premium axée sur le design et l'art. Propose un mix de modèles 3D gratuits et payants pour des projets esthétiques.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Thingiverse (48x48 conteneur, image agrandie) -->
+            <a href="https://www.thingiverse.com/search?q=CC0+CC-BY+CC-BY-SA&type=things&sort=relevant" target="_blank" class="link-card thingiverse-link block relative p-6 bg-[#13150C] hover:bg-[#13150C] transition duration-300 rounded-xl overflow-hidden group">
+                <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
+                <div class="flex items-start space-x-4">
+                    <!-- Conteneur 48x48 -->
+                    <div class="flex-shrink-0 w-12 h-12">
+                        <img 
+                            src="https://cdn.worldvectorlogo.com/logos/thingiverse-logo.svg" 
+                            alt="Logo Thingiverse" 
+                            width="48" height="48"
+                            class="w-12 h-12 rounded-lg object-contain group-hover:scale-110 transition-transform bg-white p-1"
+                            onerror="this.onerror=null; this.src='https://placehold.co/48x48/94A3B8/ffffff?text=TV'"
+                        >
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-cyan-400 transition duration-300">Thingiverse</h2>
+                        <p class="text-white mt-1 text-sm">L'archive communautaire historique de référence. Vaste volume de modèles à licence libre, idéal pour l'inspiration.</p>
+                    </div>
+                </div>
+            </a>
+
+        </section>
+
+
+
+        <!-- ...rien, bouton supprimé de la zone centrale... -->
+
+    </div>
+
+    <!-- Icône flottante Astuce de Pro -->
+    <button id="pro-tip-btn" aria-label="Astuce de pro" class="fixed bottom-6 left-6 z-50 m-0 p-0 bg-transparent border-none shadow-none flex items-center justify-center" style="background:none!important;border:none!important;padding:0!important;margin:0!important;box-shadow:none!important;width:auto;height:auto;">
+                <!-- Animation souris vers l'icône -->
+                <div id="mouse-anim" class="fixed z-50 pointer-events-none" style="left: 38px; bottom: 8px; width: 32px; height: 32px;">
+                    <img src="https://i.postimg.cc/L8fmXND0/cliquez-sur.png" alt="Pointeur cliquez" style="width:32px;height:32px;position:absolute;left:0;bottom:0;" />
+                </div>
+        </style>
+        <style>
+        #mouse-anim {
+            animation: mouse-move 1.8s cubic-bezier(.68,-0.55,.27,1.55) infinite;
+        }
+        @keyframes mouse-move {
+            0% { transform: translateY(40px) scale(1); opacity: 0; }
+            10% { transform: translateY(20px) scale(1.05); opacity: 1; }
+            30% { transform: translateY(0) scale(1.1); opacity: 1; }
+            60% { transform: translateY(0) scale(1.1); opacity: 1; }
+            80% { transform: translateY(0) scale(1.1); opacity: 0.7; }
+            100% { transform: translateY(40px) scale(1); opacity: 0; }
+        }
+        </style>
+        <img src="https://i.postimg.cc/Pr8VDcwW/bouton-dinformation.png" alt="Info" class="w-7 h-7 object-contain" />
+    </button>
+    <style>
+        @keyframes bounce-smooth {
+            0%, 100% { transform: translateY(0); }
+            10% { transform: translateY(-6px); }
+            20% { transform: translateY(-12px); }
+            30% { transform: translateY(-6px); }
+            40% { transform: translateY(-2px); }
+            50% { transform: translateY(0); }
+        }
+        .animate-bounce-smooth {
+            animation: bounce-smooth 1.6s cubic-bezier(.68,-0.55,.27,1.55) infinite;
+        }
+    </style>
+
+    <!-- Popup Astuce de Pro -->
+    <div id="pro-tip-popup" class="fixed bottom-20 left-6 z-50 bg-[#13150C] text-white p-6 rounded-xl shadow-2xl border border-[#D7FF2F] max-w-xs w-[320px] hidden">
+        <div class="flex items-center mb-2">
+            <svg class="w-6 h-6 text-white mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="font-bold text-lg">Astuce de pro</span>
+        </div>
+        <p class="text-white font-semibold text-sm">
+            Pour optimiser vos recherches, utilisez des mots-clés en <span class="text-white underline">anglais</span>. La majorité des modèles 3D publiés dans le monde le sont dans cette langue.
+        </p>
+        <button id="close-pro-tip" class="mt-4 px-4 py-2 bg-[#D7FF2F] hover:bg-[#b6d900] text-[#13150C] rounded-lg w-full font-bold transition">Fermer</button>
+    </div>
+            <style>
+            #pro-tip-btn {
+                border: 2px solid #fff;
+                background: #fff;
+                box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+                transition: background 0.2s, border 0.2s;
+            }
+            #pro-tip-btn:hover {
+                background: #fff !important;
+                opacity: 0.85;
+            }
+            #pro-tip-btn svg {
+                color: #13150C;
+                fill: #13150C;
+                transition: color 0.2s, fill 0.2s;
+            }
+            #pro-tip-btn:hover svg {
+                color: #0B0C04 !important;
+                fill: #0B0C04 !important;
+            }
+            </style>
+
+<script>
+// Affichage/Masquage de la popup Astuce de Pro
+const proTipBtn = document.getElementById('pro-tip-btn');
+const proTipPopup = document.getElementById('pro-tip-popup');
+const closeProTip = document.getElementById('close-pro-tip');
+if (proTipBtn && proTipPopup && closeProTip) {
+    proTipBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        proTipPopup.classList.toggle('hidden');
+    });
+    closeProTip.addEventListener('click', () => {
+        proTipPopup.classList.add('hidden');
+    });
+    // Cliquer en dehors ferme la popup
+    document.addEventListener('click', (e) => {
+        if (!proTipPopup.contains(e.target) && e.target !== proTipBtn && !proTipBtn.contains(e.target)) {
+            proTipPopup.classList.add('hidden');
+        }
+    });
+}
+</script>
+</body>
+</html>
