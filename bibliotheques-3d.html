@@ -34,23 +34,54 @@
         <a href="index.html" class="fixed top-6 left-6 z-50 text-white text-sm font-semibold hover:underline focus:underline transition duration-200 opacity-80 hover:opacity-100 focus:opacity-100 px-3 py-1.5 rounded-lg" style="background:#242A17;box-shadow:0 2px 8px 0 rgba(0,0,0,0.10);border:none;outline:none;">
             ← Retour au site web
         </a>
+        <style>
+        .fade-in-title {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInCard 0.7s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+        }
+        .fade-in-subtitle {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInCard 1.1s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+        }
+        @keyframes fadeInCard {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        </style>
         <header class="mb-10 text-center">
-            <h1 class="text-2xl md:text-3xl font-extrabold text-white uppercase tracking-widest mb-0">
-                <span style="background:#242A17;display:inline-block;padding:0.2em 0.8em;border-radius:0.7em;"><span style="color:#D7FF2F">Bibliothèques</span> de Modèles 3D</span>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-white uppercase tracking-widest mb-0 fade-in-title">
+                <span style="background:#242A17;display:inline-block;padding:0.2em 0.8em;border-radius:10px;"><span style="color:#fff">Bibliothèques</span> de Modèles 3D</span>
             </h1>
-            <p class="text-white text-lg pb-4" style="background:#242A17;display:inline-block;padding:0.05em 0.8em 0.15em 0.8em;border-bottom-left-radius:0.7em;border-bottom-right-radius:0.7em;border-top-left-radius:0;border-top-right-radius:0;margin-top:0;">
+            <p class="text-white text-lg pb-4 fade-in-subtitle" style="background:#242A17;display:inline-block;padding:0.05em 0.8em 0.15em 0.8em;border-bottom-left-radius:10px;border-bottom-right-radius:10px;border-top-left-radius:0;border-top-right-radius:0;margin-top:0;">
                 Après avoir téléchargé votre fichier, envoyez-le à notre 
-                <a href='https://printxe3d.fr/#configurator' target='_blank' class='font-bold hover:underline transition duration-200' style='color:#D7FF2F'>Configurateur 3D</a>.
+                <a href='https://printxe3d.fr/#configurator' target='_blank' class='font-bold transition duration-200' style='color:#fff;text-decoration:underline;'>Configurateur 3D</a>.
             </p>
         </header>
 
         <!-- Grille des Ressources (plus dynamique) -->
+        <style>
+        .fade-in-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInCard 0.7s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+        }
+        @keyframes fadeInCard {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        </style>
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- Carte de Lien (Chaque carte est un lien) -->
             
             <!-- Printables (48x48) -->
-            <a href="https://www.printables.com/model?licenses=7%3A1%3A2%3A8%3A9%3A12%3A10%3A11" target="_blank" class="link-card printables-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17'">
+            <a href="https://www.printables.com/model?licenses=7%3A1%3A2%3A8%3A9%3A12%3A10%3A11" target="_blank" class="link-card printables-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group fade-in-card" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17';">
                 <!-- Indicateur de survol (animation de bordure) -->
                 <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
                 
@@ -73,7 +104,7 @@
             </a>
 
             <!-- Thangs (48x48 conteneur, image agrandie) -->
-            <a href="https://thangs.com/tag/commercial%20license" target="_blank" class="link-card thangs-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17'">
+            <a href="https://thangs.com/tag/commercial%20license" target="_blank" class="link-card thangs-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group fade-in-card" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17';">
                 <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
                 <div class="flex items-start space-x-4">
                     <!-- Conteneur 48x48 -->
@@ -95,7 +126,7 @@
             </a>
 
             <!-- Cults3D (48x48) -->
-            <a href="https://cults3d.com/en/search?only_no_ai=false&only_safe=false&q=commercial+use" target="_blank" class="link-card cults-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17'">
+            <a href="https://cults3d.com/en/search?only_no_ai=false&only_safe=false&q=commercial+use" target="_blank" class="link-card cults-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group fade-in-card" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17';">
                 <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
                 <div class="flex items-start space-x-4">
                     <!-- Conteneur 48x48 -->
@@ -116,7 +147,7 @@
             </a>
 
             <!-- Thingiverse (48x48 conteneur, image agrandie) -->
-            <a href="https://www.thingiverse.com/search?q=CC0+CC-BY+CC-BY-SA&type=things&sort=relevant" target="_blank" class="link-card thingiverse-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17'">
+            <a href="https://www.thingiverse.com/search?q=CC0+CC-BY+CC-BY-SA&type=things&sort=relevant" target="_blank" class="link-card thingiverse-link block relative p-6 transition duration-300 rounded-xl overflow-hidden group fade-in-card" style="background:#242A17;" onmouseover="this.style.background='#242A17'" onmouseout="this.style.background='#242A17';">
                 <div class="border-indicator absolute top-0 left-0 h-1 bg-cyan-600 w-0 group-hover:w-full transition-all duration-300"></div>
                 <div class="flex items-start space-x-4">
                     <!-- Conteneur 48x48 -->
