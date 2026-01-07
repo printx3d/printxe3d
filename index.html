@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -37,28 +38,10 @@
   opacity: .9;
   margin: 0 .8rem;
   padding-bottom: 2px;
-  transition: color .22s;
 }
 nav a.active,
 nav a:hover {
   color: var(--accent);
-}
-nav a::after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 2.5px;
-  background: var(--accent);
-  border-radius: 2px;
-  opacity: 0;
-  transform: scaleX(0.5);
-  transition: opacity .22s, transform .22s;
-}
-nav a.active::after,
-nav a:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
 }
 .featGrid .feature-ico,
 .feature-card .feature-ico {
@@ -486,23 +469,31 @@ body, .hero, .section, .card, .prod, .toolbar, header.site, footer, .bg-green-ha
       padding: 0 8px;
     }
     header .row {
-      height: 54px;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0;
+      height: auto;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 8px;
+      padding: 10px 0;
     }
-    nav {
-      flex-direction: row;
-      gap: 0.7rem;
-      justify-content: center;
-      align-items: center;
-      font-size: 1em;
+    header.site nav {
+      flex-direction: column !important;
+      gap: 0.5rem;
+      justify-content: flex-start;
+      align-items: flex-start;
+      font-size: 0.95em;
       width: 100%;
     }
     .heroRow {
       grid-template-columns: 1fr;
       gap: 12px;
+    }
+    .heroRow .viewer {
+      display: none;
+    }
+    .heroRow .btn {
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
     }
     /* .prodGrid { grid-template-columns: 1fr; gap: 12px; } supprimé pour affichage 2 colonnes sur mobile */
     .card.prod.shadow {
@@ -511,9 +502,21 @@ body, .hero, .section, .card, .prod, .toolbar, header.site, footer, .bg-green-ha
       margin: 0 auto;
     }
     .toolbar {
-      flex-direction: column !important;
-      gap: 8px;
+      flex-direction: row !important;
+      gap: 6px;
       align-items: stretch;
+      flex-wrap: wrap;
+      margin-left: 0 !important;
+    }
+    .toolbar input,
+    .toolbar select {
+      font-size: 0.85rem !important;
+      padding: 0.5rem 0.6rem !important;
+      min-width: 0;
+      flex: 1 1 45%;
+    }
+    .toolbar input {
+      flex: 1 1 100%;
     }
     .section {
       padding: 32px 0;
@@ -555,6 +558,19 @@ body, .hero, .section, .card, .prod, .toolbar, header.site, footer, .bg-green-ha
       right: 2px;
       font-size: 0.95em;
       padding: 2px 6px;
+    }
+    #statsCounterBlock .grid {
+      gap: 8px !important;
+    }
+    #statsCounterBlock .muted.text-sm {
+      font-size: 0.55rem !important;
+      line-height: 1.2;
+    }
+    #statsCounterBlock .price {
+      font-size: 1rem !important;
+    }
+    #statsCounterBlock {
+      padding: 12px 8px !important;
     }
   }
   animation: fadeInSite 1.1s cubic-bezier(.33,1.02,.47,.98) both;
@@ -1503,11 +1519,11 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
   <div id="cartToast" style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#D7FF2F;color:#222;padding:12px 32px;border-radius:16px;font-weight:700;font-size:1.08em;box-shadow:0 2px 18px #0003;z-index:9999;display:none;pointer-events:none;transition:opacity .3s;opacity:0">Ajouté au panier !</div>
   <!-- Header mobile uniquement -->
   <style>
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .desktop-header { display: none !important; }
       .mobile-header { display: flex !important; }
     }
-    @media (min-width: 769px) {
+    @media (min-width: 901px) {
       .mobile-header { display: none !important; }
     }
     .mobile-header {
@@ -1542,8 +1558,8 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
       position: fixed;
       top: 60px;
       right: 0;
-      width: 85vw;
-      max-width: 320px;
+      width: 57vw;
+      max-width: 213px;
       background: #181c12;
       box-shadow: -2px 0 18px 0 rgba(0,0,0,0.18);
       border-top-left-radius: 18px;
@@ -1562,17 +1578,13 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
       text-decoration: none;
       padding: 0.5em 0;
       border-radius: 8px;
-      transition: background .18s, color .18s;
     }
     .mobile-menu a:hover {
-      background: #D7FF2F;
-      color: #13150C;
+      color: #D7FF2F;
     }
-    .mobile-menu .cart-link {
-      display: flex;
-      align-items: center;
-      gap: 0.6em;
-      font-weight: 700;
+    .mobile-menu a.active {
+      color: #D7FF2F;
+      text-decoration: none;
     }
     @keyframes slideInMenu {
       from { transform: translateX(100%); opacity: 0; }
@@ -1592,7 +1604,7 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
       <a href="#configurator">Configurateur</a>
       <a href="bibliotheques-3d.html">Ressources</a>
       <a href="#contact">Contact</a>
-      <a href="#panier" class="cart-link"><img src="https://i.ibb.co/dqgw5vH/panier.png" alt="Panier" style="height:1.3em;vertical-align:middle;">Panier</a>
+      <a href="#panier">Panier</a>
     </nav>
   </div>
   <script>
