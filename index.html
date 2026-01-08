@@ -466,7 +466,11 @@ body, .hero, .section, .card, .prod, .toolbar, header.site, footer, .bg-green-ha
   @media (max-width: 600px) {
     .container {
       max-width: 100vw;
-      padding: 0 8px;
+      padding: 0 16px;
+    }
+    .section {
+      padding-left: 8px;
+      padding-right: 8px;
     }
     header .row {
       height: auto;
@@ -1592,7 +1596,7 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
     }
   </style>
   <div class="mobile-header" style="display:none;">
-    <div class="logo" style="margin-top:-8px;">
+    <div class="logo" style="margin-top:-8px; margin-left:8px;">
       <img src="https://i.postimg.cc/bZxmw8bF/logo-blanc.png" alt="Printxe3D Logo" style="height:50px;">
     </div>
     <button class="menu-btn" id="mobileMenuBtn" aria-label="Ouvrir le menu">
@@ -2629,6 +2633,28 @@ scene.background = new THREE.Color(bgColor.trim());
           padding:36px 12px 8px 12px;
         }
         .footer-col { margin-bottom:18px; }
+        .footer-col h3,
+        .footer-col ul {
+          padding-left:0 !important;
+        }
+      }
+      @media (max-width: 600px) {
+        .footer-main {
+          grid-template-columns:1fr !important;
+          gap:20px;
+          padding:32px 16px 8px 16px;
+        }
+        .footer-col { 
+          margin-bottom:16px;
+          width: 100%;
+        }
+        .footer-col:nth-child(1) {
+          margin-bottom: 0px;
+        }
+        .footer-col h3,
+        .footer-col ul {
+          padding-left:0 !important;
+        }
       }
       .footer-main a:hover { color: #D7FF2F !important; }
       .footer-col h3 { color: #D7FF2F; font-family: Orbitron, Inter, sans-serif; }
