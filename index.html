@@ -827,6 +827,36 @@ header.site nav {
   .faq-accordion summary { font-size: 1rem; padding: 14px 0 14px 0; }
   .faq-accordion .faq-ico { width: 32px; height: 32px; }
   .faq-accordion p { margin-left: 44px; }
+  .faq-contact-grid { grid-template-columns: 1fr !important; gap: 24px; }
+  .faq-contact-grid > * { min-height: auto !important; height: auto !important; width: 100%; max-width: 100%; box-sizing: border-box; }
+  #contact .container { padding: 0 16px; max-width: 100%; }
+  #contact .card.pad { width: 100%; max-width: 100%; box-sizing: border-box; }
+}
+@media (max-width: 600px) {
+  .faq-contact-grid { grid-template-columns: 1fr !important; gap: 20px; width: 100%; }
+  .faq-contact-grid > * { min-height: auto !important; height: auto !important; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+  .faq-accordion summary { 
+    font-size: 0.85rem; 
+    padding: 12px 0 12px 0; 
+    min-height: auto; 
+    white-space: normal !important; 
+    align-items: flex-start;
+    line-height: 1.3;
+  }
+  .faq-accordion summary span:not(.faq-ico) { 
+    flex: 1; 
+    word-wrap: break-word !important; 
+    overflow-wrap: break-word !important; 
+    white-space: normal !important;
+    line-height: 1.3;
+    max-width: calc(100% - 50px);
+  }
+  .faq-accordion .faq-ico { width: 26px; height: 26px; margin-left: 8px; flex-shrink: 0; margin-top: 0px; margin-right: 8px; }
+  .faq-accordion p { margin-left: 36px; font-size: 0.85rem; margin-right: 8px; }
+  #contact .card.pad { height: auto !important; min-height: auto !important; width: 100%; max-width: 100%; padding: 12px; box-sizing: border-box; }
+  #contact .container { padding: 0 12px; max-width: 100%; overflow-x: hidden; }
+  #contactForm { width: 100%; max-width: 100%; box-sizing: border-box; }
+  #contactForm .input, #contactForm input, #contactForm textarea { width: 100%; max-width: 100%; box-sizing: border-box; }
 }
 .cart-btn {
   background: none !important;
@@ -1987,25 +2017,67 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
         }
         @media (max-width: 700px) {
           .steps-grid {
-            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
           }
           .step-card {
-            height: 220px;
+            height: 200px;
+            width: 100%;
+          }
+          .card-inner {
+            height: 100%;
           }
           .card-front, .card-back {
-            padding: 1rem;
+            padding: 0.8rem;
             font-size: 0.95rem;
+          }
+          .card-front h3 {
+            font-size: 1.05em;
+            margin-bottom: 0.4em;
+          }
+          .card-front p {
+            font-size: 0.9em;
+            line-height: 1.3;
+          }
+          .tags {
+            display: none;
+          }
+          .process-steps h2 {
+            font-size: 2rem;
           }
         }
         @media (max-width: 500px) {
           .process-steps h2 {
-            font-size: 1.3rem;
+            font-size: 1.75rem;
+          }
+          .process-subtitle {
+            font-size: 0.95rem;
+          }
+          .steps-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
           }
           .step-card {
             height: 170px;
+            width: 100%;
+          }
+          .card-inner {
+            height: 100%;
           }
           .card-front, .card-back {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            padding: 0.6rem;
+          }
+          .card-front h3 {
+            font-size: 1em;
+            margin-bottom: 0.3em;
+          }
+          .card-front p {
+            font-size: 0.85em;
+            line-height: 1.25;
+          }
+          .tags {
+            display: none;
           }
         }
         .auto-flip {
@@ -2516,7 +2588,7 @@ scene.background = new THREE.Color(bgColor.trim());
     <section class="section" id="contact">
       <div class="container">
         <h2 class="h2">FAQ & Contact</h2>
-        <div class="grid" style="grid-template-columns:1fr 1fr">
+        <div class="grid faq-contact-grid" style="grid-template-columns:1fr 1fr">
           <div class="card pad">
 <div class="card pad faq-card" style="background:none;border:none;box-shadow:none;padding:0;">
   <details class="faq-accordion">
