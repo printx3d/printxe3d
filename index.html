@@ -472,6 +472,9 @@ body, .hero, .section, .card, .prod, .toolbar, header.site, footer, .bg-green-ha
       padding-left: 8px;
       padding-right: 8px;
     }
+    .hide-mobile {
+      display: none !important;
+    }
     header .row {
       height: auto;
       flex-direction: column;
@@ -498,6 +501,7 @@ body, .hero, .section, .card, .prod, .toolbar, header.site, footer, .bg-green-ha
     .heroRow .btn {
       padding: 0.6rem 0.9rem;
       font-size: 0.85rem;
+      border-radius: 8px;
     }
     /* .prodGrid { grid-template-columns: 1fr; gap: 12px; } supprimé pour affichage 2 colonnes sur mobile */
     .card.prod.shadow {
@@ -1740,7 +1744,7 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
   </h2>
   <p class="muted" style="max-width:900px;margin:18px auto 0;font-size:1.13rem;line-height:1.6;letter-spacing:.01em;">
     Suivi projet personnalisé pour des pièces fiables, au bon coût et dans les temps<br>
-    <span style="color:var(--accent);font-weight:600;">
+    <span class="hide-mobile" style="color:var(--accent);font-weight:600;">
       Du prototype à la petite série
     </span>
   </p>
