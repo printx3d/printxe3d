@@ -99,8 +99,63 @@ nav a:hover {
         grid-template-columns: repeat(2,1fr) !important;
       }
     }
-    .toolbar{display:flex;flex-direction:row !important;gap:10px;align-items:flex-end;min-width:0;max-width:none}
-    .toolbar input,.toolbar select{background:#0b0b0b;border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:12px;padding:.6rem .8rem;outline:none}
+    .toolbar{display:flex;flex-direction:row !important;gap:8px;align-items:flex-end;min-width:0;max-width:none}
+    .toolbar input,.toolbar select{background:#0b0b0b;border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:10px;padding:.5rem .6rem;outline:none;font-size:0.85rem;max-width:130px}
+    .toolbar input#search{max-width:170px}
+    /* Bouton filtre mobile */
+    .filter-toggle-btn {
+      display: none;
+      background: var(--bg-soft);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 8px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      align-items: center;
+      gap: 6px;
+    }
+    .filter-toggle-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    @media (max-width: 768px) {
+      .filter-toggle-btn {
+        display: flex;
+      }
+      .toolbar {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 12px;
+        padding: 12px;
+        background: var(--bg-soft);
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.1);
+      }
+      .toolbar.show-filters {
+        display: flex;
+      }
+      .toolbar input, .toolbar select {
+        width: 100%;
+        max-width: 100%;
+      }
+      .toolbar input#search {
+        width: 100%;
+        max-width: 100%;
+      }
+      .store-header-row {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100%;
+      }
+      .store-filters-container {
+        width: 100%;
+      }
+    }
     .prodGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(220px, 1fr));
@@ -1679,6 +1734,24 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
       });
     }
   </script>
+  <!-- Script pour le bouton filtre mobile boutique -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterBtn = document.getElementById('filterToggleBtn');
+      const toolbar = document.getElementById('storeToolbar');
+      if (filterBtn && toolbar) {
+        filterBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toolbar.classList.toggle('show-filters');
+        });
+        document.addEventListener('click', function(e) {
+          if (!toolbar.contains(e.target) && e.target !== filterBtn && !filterBtn.contains(e.target)) {
+            toolbar.classList.remove('show-filters');
+          }
+        });
+      }
+    });
+  </script>
   <!-- Fin header mobile -->
   <header class="site desktop-header">
   <div class="container row" style="justify-content:space-between;">
@@ -1826,12 +1899,18 @@ button:hover, .tally-submit-button:hover, .tally-button:hover {
 </section>
     <section class="section" id="store">
       <div class="container">
-        <div style="display:flex;align-items:end;gap:12px;flex-wrap:wrap; margin-left:-10px;">
+        <div class="store-header-row" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap; margin-left:-10px;justify-content:space-between;">
           <div style="display:flex;flex-direction:column;justify-content:flex-end;">
     <p class="muted" style="letter-spacing:.25em;text-transform:uppercase;font-size:.72rem;margin:0 0 2px 0;">Boutique en Ligne</p>
     <h2 class="h2" style="margin:0;">Nos produits</h2>
   </div>
-  <div class="toolbar">
+  <button class="filter-toggle-btn" id="filterToggleBtn">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+    </svg>
+    Filtres
+  </button>
+  <div class="toolbar" id="storeToolbar">
     <input id="search" placeholder="Rechercher…" />
     <select id="category"></select>
     <select id="sort">
@@ -2952,7 +3031,7 @@ scene.background = new THREE.Color(bgColor.trim());
     {
       id: 999,
       slug: "lightline-support-stabilo",
-      title: "LightLine – Support compatible Stabilo®",
+      title: "Support compatible Stabilo®",
       price: 7.5,
       category: "accessoires",
       rating: 4.9,
