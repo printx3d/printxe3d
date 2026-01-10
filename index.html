@@ -903,7 +903,7 @@ header.site nav {
 @media (max-width: 900px) {
   .faq-accordion { margin-bottom: 12px; }
   .faq-accordion summary { font-size: 1rem; padding: 14px 0 14px 0; }
-  /* .faq-accordion .faq-ico { width: 32px; height: 32px; } */
+  .faq-accordion .faq-ico { width: 32px; height: 32px; }
   .faq-accordion p { margin-left: 44px; }
   .faq-contact-grid { grid-template-columns: 1fr !important; gap: 24px; }
   .faq-contact-grid > * { min-height: auto !important; height: auto !important; width: 100%; max-width: 100%; box-sizing: border-box; }
@@ -933,7 +933,7 @@ header.site nav {
     max-width: calc(100% - 50px);
     overflow: visible;
   }
-  /* .faq-accordion .faq-ico { width: 26px; height: 26px; margin-left: 8px; flex-shrink: 0; margin-top: 0px; margin-right: 8px; } */
+  .faq-accordion .faq-ico { width: 26px; height: 26px; margin-left: 8px; flex-shrink: 0; margin-top: 0px; margin-right: 8px; }
   .faq-accordion p { margin-left: 36px; font-size: 0.85rem; margin-right: 8px; }
   #contact .card.pad { height: auto !important; min-height: auto !important; width: 100%; max-width: 100%; padding: 12px; box-sizing: border-box; }
   #contact .container { padding: 0 12px; max-width: 100%; overflow-x: hidden; }
@@ -2760,7 +2760,7 @@ scene.background = new THREE.Color(bgColor.trim());
   <details class="faq-accordion">
     <summary>
       <span class="faq-ico">
-        <img src="https://i.postimg.cc/rdbBxDxf/Gemini-Generated-Image-ref1bkref1bkref1-removebg-preview.png" alt="Icône fichier STL" style="width:32px;height:32px;object-fit:contain;" />
+        <svg width="28" height="28" fill="none" stroke="#D7FF2F" stroke-width="2"><rect x="4" y="4" width="20" height="20" rx="5"/><path d="M9 9h10M9 14h10M9 19h10"/></svg>
       </span>
       <span style="color:#fff;">Acceptez-vous des fichiers 3D d’ailleurs ?</span>
     </summary>
@@ -2769,7 +2769,10 @@ scene.background = new THREE.Color(bgColor.trim());
   <details class="faq-accordion">
     <summary>
       <span class="faq-ico">
-        <img src="https://i.postimg.cc/5HGhLXLP/Gemini-Generated-Image-8ddcuy8ddcuy8ddc-removebg-preview.png" alt="Icône prix" style="width:32px;height:32px;object-fit:contain;" />
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="3.5" y="3.5" width="17" height="13" rx="1.2" stroke="#D7FF2F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></rect>
+        <path d="M7.5 6.5h9" stroke="#D7FF2F" stroke-width="1.4" stroke-linecap="round"></path>
+      </svg>
       </span>
       <span style="color:#fff;">Comment fixez-vous les prix des impressions ?</span>
     </summary>
@@ -2778,11 +2781,13 @@ scene.background = new THREE.Color(bgColor.trim());
   <details class="faq-accordion">
     <summary>
       <span class="faq-ico">
-          <img src="https://i.postimg.cc/2qJsh1hG/Gemini-Generated-Image-57gy7u57gy7u57gy-removebg-preview.png" alt="Icône réparation" style="width:120px !important;height:120px !important;object-fit:contain !important;display:block;margin:auto;margin-top:-40px;" />
-        </span>
+        <svg width="28" height="28" fill="none" stroke="#D7FF2F" stroke-width="2"><circle cx="14" cy="14" r="11"/><path d="M14 8v7l4 3"/></svg>
+      </span>
       <span style="color:#fff;">Pouvez-vous reproduire une pièce cassée ?</span>
+      
     </summary>
     <p class="muted">Oui. Avec la pièce d’origine, des photos ou des mesures, nous pouvons la modéliser puis la réimprimer sur mesure.</p>
+
   </details>
 </div>
           </div>
